@@ -29,7 +29,7 @@
 .gameContainer {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    grid-template-areas: ". cardhand cardhand cardhand ." ". cardhand cardhand cardhand ." ". town town town ." ". town town town ." ". town town town ." ". town town town .";
+    grid-template-areas: ". . cardhand . ." ". . cardhand . ." ". . town . ." ". . town . ." ". . town . ." ". . town . .";
 }
 
 .hand {
