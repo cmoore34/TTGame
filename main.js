@@ -38,6 +38,7 @@ for (i = 0; i < 3; i++) {
 function refreshHand() {
     for (i = 0; i < game.hand.length; i++) {
         $('#card' + i).addClass(game.hand[i].toString().toLowerCase());
+        $('#card' + i).text(game.hand[i].toString());
     };
 }
 

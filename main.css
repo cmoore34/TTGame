@@ -7,23 +7,28 @@
 }
 
 .stone {
-    background-color: var(--stone) !important
+    background-color: var(--stone) !important;
+    text-align: center;
 }
 
 .wheat {
-    background-color: var(--wheat) !important
+    background-color: var(--wheat) !important;
+    text-align: center;
 }
 
 .glass {
-    background-color: var(--glass) !important
+    background-color: var(--glass) !important;
+    text-align: center;
 }
 
 .brick {
-    background-color: var(--brick) !important
+    background-color: var(--brick) !important;
+    text-align: center;
 }
 
 .wood {
-    background-color: var(--wood) !important
+    background-color: var(--wood) !important;
+    text-align: center;
 }
 
 .gameContainer {
