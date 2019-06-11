@@ -23,31 +23,49 @@
         <![endif]-->
     <div class="gameContainer">
         <div class="hand">
-            <div id="card0" class="card"></div>
-            <div id="card1" class="card"></div>
-            <div id="card2" class="card"></div>
+            <div id="card0" class="card" data-resource=""></div>
+            <div id="card1" class="card" data-resource=""></div>
+            <div id="card2" class="card" data-resource=""></div>
         </div>
         <div class="town">
-            <div id="r0c0" class="cell"></div>
-            <div id="r0c1" class="cell"></div>
-            <div id="r0c2" class="cell"></div>
-            <div id="r0c3" class="cell"></div>
-            <div id="r1c0" class="cell"></div>
-            <div id="r1c1" class="cell"></div>
-            <div id="r1c2" class="cell"></div>
-            <div id="r1c3" class="cell"></div>
-            <div id="r2c0" class="cell"></div>
-            <div id="r2c1" class="cell"></div>
-            <div id="r2c2" class="cell"></div>
-            <div id="r2c3" class="cell"></div>
-            <div id="r3c0" class="cell"></div>
-            <div id="r3c1" class="cell"></div>
-            <div id="r3c2" class="cell"></div>
-            <div id="r3c3" class="cell"></div>
+            <div id="r0c0" class="cell" data-resource="" data-building=""></div>
+            <div id="r0c1" class="cell" data-resource="" data-building=""></div>
+            <div id="r0c2" class="cell" data-resource="" data-building=""></div>
+            <div id="r0c3" class="cell" data-resource="" data-building=""></div>
+            <div id="r1c0" class="cell" data-resource="" data-building=""></div>
+            <div id="r1c1" class="cell" data-resource="" data-building=""></div>
+            <div id="r1c2" class="cell" data-resource="" data-building=""></div>
+            <div id="r1c3" class="cell" data-resource="" data-building=""></div>
+            <div id="r2c0" class="cell" data-resource="" data-building=""></div>
+            <div id="r2c1" class="cell" data-resource="" data-building=""></div>
+            <div id="r2c2" class="cell" data-resource="" data-building=""></div>
+            <div id="r2c3" class="cell" data-resource="" data-building=""></div>
+            <div id="r3c0" class="cell" data-resource="" data-building=""></div>
+            <div id="r3c1" class="cell" data-resource="" data-building=""></div>
+            <div id="r3c2" class="cell" data-resource="" data-building=""></div>
+            <div id="r3c3" class="cell" data-resource="" data-building=""></div>
         </div>
     </div>
     <script>
-        refreshHand();
+        $('.card').click(function() {
+            $(this).addClass("selected");
+            if ($(this).hasClass("selected") && game.played === "") {
+                var cardnum = this.id.substr(this.id.length - 1)
+                var resourcePlayed = $(this).data("resource");
+                game.play(cardnum);
+                $(this).removeClass(resourcePlayed.toLowerCase());
+                $(this).text("");
+                $(this).data("resource", "");
+            }
+        });
+        // $('.cell').click(function() {
+        //     if ($(this).data("resource") === "" && game.played !== "") {
+        //         var resourcePlayed = game.played.toLowerCase()
+        //         $(this).addClass(resourcePlayed);
+        //         $(this).data("resource", resourcePlayed);
+        //         refillHand();
+        //     }
+        // });
     </script>
 </body>
 

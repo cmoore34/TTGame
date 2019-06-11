@@ -29,18 +29,28 @@ class Deck {
         this.deck.unshift(this.played);
     }
 }
-
 const game = new Deck();
-for (i = 0; i < 3; i++) {
-    game.deal();
-}
-
-function refreshHand() {
-    for (i = 0; i < game.hand.length; i++) {
+$(document).ready(function() {
+    for (i = 0; i < 3; i++) {
+        game.deal();
         $('#card' + i).addClass(game.hand[i].toString().toLowerCase());
         $('#card' + i).text(game.hand[i].toString());
-    };
-}
+        $('#card' + i).data("resource", game.hand[i].toString().toLowerCase());
+    }
+    console.log(game.deck);
+    console.log(game.hand);
+});
 
-console.log(game.deck);
-console.log(game.hand);
+function refillHand() {
+    game.deal();
+    $('.card').each(function(i) {
+        for (j = 0; j < game.hand.length; j++) {
+            if ($(this).data("resource") !== game.hand[j].toString() && parseInt(this.id.substr(this.id.length - 1)) === j) {
+                $('#card' + i).addClass(game.hand[j].toString().toLowerCase());
+                $('#card' + i).text(game.hand[j].toString());
+                $('#card' + i).data("resource", game.hand[j].toString());
+                $('#card' + i).removeClass("selected");
+            }
+        }
+    })
+}
