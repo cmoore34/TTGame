@@ -1,40 +1,63 @@
+:root {
+    --stone: slategrey;
+    --wheat: wheat;
+    --glass: deepskyblue;
+    --brick: firebrick;
+    --wood: saddlebrown;
+}
+
+.stone {
+    background-color: var(--stone) !important
+}
+
+.wheat {
+    background-color: var(--wheat) !important
+}
+
+.glass {
+    background-color: var(--glass) !important
+}
+
+.brick {
+    background-color: var(--brick) !important
+}
+
+.wood {
+    background-color: var(--wood) !important
+}
+
 .gameContainer {
-    display:grid;
-    grid-template-columns: repeat(5,1fr);
-    grid-template-areas:
-        ". cardhand cardhand cardhand ."
-        ". cardhand cardhand cardhand ."
-        ". town town town ."
-        ". town town town ."
-        ". town town town ."
-        ". town town town .";
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-areas: ". cardhand cardhand cardhand ." ". cardhand cardhand cardhand ." ". town town town ." ". town town town ." ". town town town ." ". town town town .";
 }
 
 .hand {
     display: grid;
-    grid-template-columns: repeat(3,1fr);
+    grid-template-columns: repeat(3, 1fr);
     grid-area: cardhand;
-    margin-bottom:20px;
+    margin-bottom: 20px;
 }
 
 .hand .card {
-    height:80px;
-    width:50px;
+    height: 80px;
+    width: 50px;
     justify-self: center;
+    background-color: white;
     border: 2px solid black;
 }
 
 .town {
-    display:grid;
-    grid-template-columns: repeat(4,1fr);
-    grid-template-rows: repeat(4,1fr);
-    grid-gap:10px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    grid-gap: 10px;
     grid-area: town;
 }
 
 .town .cell {
-    height:50px;
-    width:50px;
+    height: 50px;
+    width: 50px;
     justify-self: center;
-    border:2px solid black;
+    border: 2px solid black;
 }
