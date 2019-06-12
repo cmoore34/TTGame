@@ -58,14 +58,16 @@
                 $(this).data("resource", "");
             }
         });
-        // $('.cell').click(function() {
-        //     if ($(this).data("resource") === "" && game.played !== "") {
-        //         var resourcePlayed = game.played.toLowerCase()
-        //         $(this).addClass(resourcePlayed);
-        //         $(this).data("resource", resourcePlayed);
-        //         refillHand();
-        //     }
-        // });
+        $('.cell').click(function() {
+            if ($(this).data("resource") === "" && game.played !== "") {
+                var resourcePlayed = game.played.toLowerCase()
+                $(this).addClass(resourcePlayed);
+                $(this).data("resource", resourcePlayed);
+                $('.card').attr('class', 'card');
+                refillHand();
+                game.played = "";
+            }
+        });
     </script>
 </body>
 

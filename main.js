@@ -45,11 +45,10 @@ function refillHand() {
     game.deal();
     $('.card').each(function(i) {
         for (j = 0; j < game.hand.length; j++) {
-            if ($(this).data("resource") !== game.hand[j].toString() && parseInt(this.id.substr(this.id.length - 1)) === j) {
+            if ($(this).data("resource") !== game.hand[j].toString().toLowerCase() && parseInt(this.id.substr(this.id.length - 1)) === j) {
                 $('#card' + i).addClass(game.hand[j].toString().toLowerCase());
                 $('#card' + i).text(game.hand[j].toString());
-                $('#card' + i).data("resource", game.hand[j].toString());
-                $('#card' + i).removeClass("selected");
+                $('#card' + i).data("resource", game.hand[j].toString().toLowerCase());
             }
         }
     })
