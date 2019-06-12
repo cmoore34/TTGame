@@ -43,14 +43,9 @@ $(document).ready(function() {
 
 function refillHand() {
     game.deal();
-    $('.card').each(function(i) {
-        for (j = 0; j < game.hand.length; j++) {
-            if ($(this).data("resource") !== game.hand[j].toString().toLowerCase() && parseInt(this.id.substr(this.id.length - 1)) === j) {
-                debugger;
-                $('#card' + i).addClass(game.hand[j].toString().toLowerCase());
-                $('#card' + i).text(game.hand[j].toString());
-                $('#card' + i).data("resource", game.hand[j].toString().toLowerCase());
-            }
-        }
-    })
+    for (j = 0; j < game.hand.length; j++) {
+        $('#card' + j).addClass(game.hand[j].toString().toLowerCase());
+        $('#card' + j).text(game.hand[j].toString());
+        $('#card' + j).data("resource", game.hand[j].toString().toLowerCase());
+    }
 }

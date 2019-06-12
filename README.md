@@ -3,4 +3,4 @@
 
 
 #debugging notes for later
-#issue seems to happen after the second refill hand. classes dont refresh properly. either something is not happening in the right order or its all happening too fast
+#issue is with playing the second or third card. classes dont refresh properly. either something is not happening in the right order or its all happening too fast
