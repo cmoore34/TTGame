@@ -49,3 +49,8 @@ function refillHand() {
         $('#card' + j).data("resource", game.hand[j].toString().toLowerCase());
     }
 }
+
+function checkBuilding(row, col, firstResource) {
+    if (firstResource === "")
+
+}

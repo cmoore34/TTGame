@@ -66,6 +66,11 @@
                 $('.card').attr('class', 'card');
                 refillHand();
                 game.played = "";
+            } else if ($(this).data("resource") !== "" && game.played === "") {
+                var row = parseInt(this.id.substr(1, 1));
+                var col = parseInt(this.id.substr(3, 3));
+                var firstResource = $(this).data("resource");
+                checkBuilding(row, col, firstResource); //check for a building and then just put a colored border around each cell that matches (array of id's)
             }
         });
     </script>
