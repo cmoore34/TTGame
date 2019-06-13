@@ -28,7 +28,8 @@
 }
 
 .factory {
-    border: 2px solid var(--factory);
+    border: 3px solid var(--factory) !important;
+    filter: brightness(120%);
 }
 
 .gameContainer {
