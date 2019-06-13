@@ -31,110 +31,107 @@ class Deck {
 }
 const game = new Deck();
 $(document).ready(function() {
-    for (i = 0; i < 3; i++) {
-        game.deal();
-        $('#card' + i).addClass(game.hand[i].toString().toLowerCase());
-        $('#card' + i).text(game.hand[i].toString());
-        $('#card' + i).data("resource", game.hand[i].toString().toLowerCase());
-    }
+    refillHand(true);
     console.log(game.deck);
     console.log(game.hand);
 });
 
-function refillHand() {
-    game.deal();
-    for (j = 0; j < game.hand.length; j++) {
-        $('#card' + j).addClass(game.hand[j].toString().toLowerCase());
-        $('#card' + j).text(game.hand[j].toString());
-        $('#card' + j).data("resource", game.hand[j].toString().toLowerCase());
+function refillHand(dealStart) {
+    for (i = 0; i < 3; i++) {
+        var card = $('#card' + i)
+        if ((!dealStart && i === 0) || dealStart) {
+            game.deal();
+        }
+        var handVal = game.hand[i].toString();
+        card.addClass(handVal.toLowerCase());
+        card.text(handVal);
+        card.data("resource", handVal.toLowerCase());
     }
 }
 
 function checkBuilding(row, col, firstResource) {
-    checkFactory(row,col,firstResource);
+    checkFactory(row, col, firstResource);
 }
 
 
-function checkFactory(row,col,firstResource){
+function checkFactory(row, col, firstResource) {
     var patternMatch = false;
 
-    if (firstResource === "brick" || firstResource === "glass")
-    {
-        if(firstResource === "brick") {
+    if (firstResource === "brick" || firstResource === "glass") {
+        if (firstResource === "brick") {
             //check verticals
-            if(row <= 1 && !patternMatch){
-                if($('#r'+(row+1)+'c'+col).data("resource") === "brick"){
-                    if($('#r'+(row+2)+'c'+col).data("resource") === "glass"){
-                        $('#r'+row+'c'+col).addClass("factory");
-                        $('#r'+(row+1)+'c'+col).addClass("factory");
-                        $('#r'+(row+2)+'c'+col).addClass("factory");
-                        patternMatch=true;
+            if (row <= 1 && !patternMatch) {
+                if ($('#r' + (row + 1) + 'c' + col).data("resource") === "brick") {
+                    if ($('#r' + (row + 2) + 'c' + col).data("resource") === "glass") {
+                        $('#r' + row + 'c' + col).addClass("factory");
+                        $('#r' + (row + 1) + 'c' + col).addClass("factory");
+                        $('#r' + (row + 2) + 'c' + col).addClass("factory");
+                        patternMatch = true;
                     }
                 }
             }
-            if(row >= 2 && !patternMatch){
-                if($('#r'+(row-1)+'c'+col).data("resource") === "brick"){
-                    if($('#r'+(row-2)+'c'+col).data("resource") === "glass"){
-                        $('#r'+row+'c'+col).addClass("factory");
-                        $('#r'+(row-1)+'c'+col).addClass("factory");
-                        $('#r'+(row-2)+'c'+col).addClass("factory");
-                        patternMatch=true;
+            if (row >= 2 && !patternMatch) {
+                if ($('#r' + (row - 1) + 'c' + col).data("resource") === "brick") {
+                    if ($('#r' + (row - 2) + 'c' + col).data("resource") === "glass") {
+                        $('#r' + row + 'c' + col).addClass("factory");
+                        $('#r' + (row - 1) + 'c' + col).addClass("factory");
+                        $('#r' + (row - 2) + 'c' + col).addClass("factory");
+                        patternMatch = true;
                     }
                 }
             }
-            if(col <= 1 && !patternMatch){
-                if($('#r'+row+'c'+(col+1)).data("resource") === "brick"){
-                    if($('#r'+row+'c'+(col+2)).data("resource") === "glass"){
-                        $('#r'+row+'c'+col).addClass("factory");
-                        $('#r'+row+'c'+(col+1)).addClass("factory");
-                        $('#r'+row+'c'+(col+2)).addClass("factory");
-                        patternMatch=true;
+            if (col <= 1 && !patternMatch) {
+                if ($('#r' + row + 'c' + (col + 1)).data("resource") === "brick") {
+                    if ($('#r' + row + 'c' + (col + 2)).data("resource") === "glass") {
+                        $('#r' + row + 'c' + col).addClass("factory");
+                        $('#r' + row + 'c' + (col + 1)).addClass("factory");
+                        $('#r' + row + 'c' + (col + 2)).addClass("factory");
+                        patternMatch = true;
                     }
                 }
             }
-            if(col >= 2 && !patternMatch){
-                if($('#r'+row+'c'+(col-1)).data("resource") === "brick"){
-                    if($('#r'+row+'c'+(col-2)).data("resource") === "glass"){
-                        $('#r'+row+'c'+col).addClass("factory");
-                        $('#r'+row+'c'+(col-1)).addClass("factory");
-                        $('#r'+row+'c'+(col-2)).addClass("factory");
-                        patternMatch=true;
+            if (col >= 2 && !patternMatch) {
+                if ($('#r' + row + 'c' + (col - 1)).data("resource") === "brick") {
+                    if ($('#r' + row + 'c' + (col - 2)).data("resource") === "glass") {
+                        $('#r' + row + 'c' + col).addClass("factory");
+                        $('#r' + row + 'c' + (col - 1)).addClass("factory");
+                        $('#r' + row + 'c' + (col - 2)).addClass("factory");
+                        patternMatch = true;
                     }
                 }
             }
             //check horizontals
-        }
-        else{
+        } else {
             //check verticals
-            if(row <= 1 && !patternMatch){
-                if($('#r'+(row+1)+'c'+col).data("resource") === "brick"){
-                    if($('#r'+(row+2)+'c'+col).data("resource") === "brick"){
+            if (row <= 1 && !patternMatch) {
+                if ($('#r' + (row + 1) + 'c' + col).data("resource") === "brick") {
+                    if ($('#r' + (row + 2) + 'c' + col).data("resource") === "brick") {
                         console.log("found it!");
-                        patternMatch=true;
+                        patternMatch = true;
                     }
                 }
             }
-            if(row >= 2 && !patternMatch){
-                if($('#r'+(row-1)+'c'+col).data("resource") === "brick"){
-                    if($('#r'+(row-2)+'c'+col).data("resource") === "brick"){
+            if (row >= 2 && !patternMatch) {
+                if ($('#r' + (row - 1) + 'c' + col).data("resource") === "brick") {
+                    if ($('#r' + (row - 2) + 'c' + col).data("resource") === "brick") {
                         console.log("found it!");
-                        patternMatch=true;
+                        patternMatch = true;
                     }
                 }
             }
-            if(col <= 1 && !patternMatch){
-                if($('#r'+row+'c'+(col+1)).data("resource") === "brick"){
-                    if($('#r'+row+'c'+(col+2)).data("resource") === "brick"){
+            if (col <= 1 && !patternMatch) {
+                if ($('#r' + row + 'c' + (col + 1)).data("resource") === "brick") {
+                    if ($('#r' + row + 'c' + (col + 2)).data("resource") === "brick") {
                         console.log("found it!");
-                        patternMatch=true;
+                        patternMatch = true;
                     }
                 }
             }
-            if(col >= 2 && !patternMatch){
-                if($('#r'+row+'c'+(col-1)).data("resource") === "brick"){
-                    if($('#r'+row+'c'+(col-2)).data("resource") === "brick"){
+            if (col >= 2 && !patternMatch) {
+                if ($('#r' + row + 'c' + (col - 1)).data("resource") === "brick") {
+                    if ($('#r' + row + 'c' + (col - 2)).data("resource") === "brick") {
                         console.log("found it!");
-                        patternMatch=true;
+                        patternMatch = true;
                     }
                 }
             }

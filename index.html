@@ -64,7 +64,7 @@
                 $(this).addClass(resourcePlayed);
                 $(this).data("resource", resourcePlayed);
                 $('.card').attr('class', 'card');
-                refillHand();
+                refillHand(false);
                 game.played = "";
             } else if ($(this).data("resource") !== "" && game.played === "") {
                 var row = parseInt(this.id.substr(1, 1));
