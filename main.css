@@ -31,7 +31,7 @@ html {
     background-color: var(--wood) !important;
 }
 
-.factory {
+.factoryFound {
     border: 3px solid var(--factory) !important;
     filter: brightness(120%);
 }
