@@ -13,10 +13,8 @@ class Deck {
 
         while (m) {
             i = Math.floor(Math.random() * m--);
-
             [deck[m], deck[i]] = [deck[i], deck[m]];
         }
-
         return this;
     }
 
@@ -56,86 +54,128 @@ function checkBuilding(row, col, firstResource) {
 
 function checkFactory(row, col, firstResource) {
     var patternMatch = false;
+    var currentLocation = $('#r' + row + 'c' + col);
+    var downOneRow = $('#r' + (row + 1) + 'c' + col);
+    var downTwoRows = $('#r' + (row + 2) + 'c' + col);
+    var upOneRow = $('#r' + (row - 1) + 'c' + col);
+    var upTwoRows = $('#r' + (row - 2) + 'c' + col);
+    var rightOneCol = $('#r' + row + 'c' + (col + 1));
+    var rightTwoCols = $('#r' + row + 'c' + (col + 2));
+    var leftOneCol = $('#r' + row + 'c' + (col - 1));
+    var leftTwoCols = $('#r' + row + 'c' + (col - 2));
 
-    if (firstResource === "brick" || firstResource === "glass") {
-        if (firstResource === "brick") {
-            //check verticals
-            if (row <= 1 && !patternMatch) {
-                if ($('#r' + (row + 1) + 'c' + col).data("resource") === "brick") {
-                    if ($('#r' + (row + 2) + 'c' + col).data("resource") === "glass") {
-                        $('#r' + row + 'c' + col).addClass("factory");
-                        $('#r' + (row + 1) + 'c' + col).addClass("factory");
-                        $('#r' + (row + 2) + 'c' + col).addClass("factory");
-                        patternMatch = true;
-                    }
+    //Check Brick path first
+    if (firstResource === "brick") {
+        //if we do not have a patternMatch, and we are at Row 0 or 1,
+        //we can check down the grid without exceeding the bounds of the grid
+        if (row <= 1 && !patternMatch) {
+            //if the next resource down is brick, we can continue checking down, otherwise we continue through the algorithm
+            if (downOneRow.data("resource") === "brick") {
+                //if the next resource down is glass, we know we have a match
+                if (downTwoRows.data("resource") === "glass") {
+                    currentLocation.addClass("factory");
+                    downOneRow.addClass("factory");
+                    downTwoRows.addClass("factory");
+                    patternMatch = true;
                 }
             }
-            if (row >= 2 && !patternMatch) {
-                if ($('#r' + (row - 1) + 'c' + col).data("resource") === "brick") {
-                    if ($('#r' + (row - 2) + 'c' + col).data("resource") === "glass") {
-                        $('#r' + row + 'c' + col).addClass("factory");
-                        $('#r' + (row - 1) + 'c' + col).addClass("factory");
-                        $('#r' + (row - 2) + 'c' + col).addClass("factory");
-                        patternMatch = true;
-                    }
+        }
+        //if we do not have a patternMatch, and we are at Row 2 or 3,
+        //we can check up the grid without exceeding the bounds of the grid
+        if (row >= 2 && !patternMatch) {
+            //if the next resource up is brick, we can continue checking up, otherwise we continue through the algorithm
+            if (upOneRow.data("resource") === "brick") {
+                //if the next resource up is glass, we know we have a match
+                if (upTwoRows.data("resource") === "glass") {
+                    currentLocation.addClass("factory");
+                    upOneRow.addClass("factory");
+                    upTwoRows.addClass("factory");
+                    patternMatch = true;
                 }
             }
-            if (col <= 1 && !patternMatch) {
-                if ($('#r' + row + 'c' + (col + 1)).data("resource") === "brick") {
-                    if ($('#r' + row + 'c' + (col + 2)).data("resource") === "glass") {
-                        $('#r' + row + 'c' + col).addClass("factory");
-                        $('#r' + row + 'c' + (col + 1)).addClass("factory");
-                        $('#r' + row + 'c' + (col + 2)).addClass("factory");
-                        patternMatch = true;
-                    }
+        }
+        //if we do not have a patternMatch, and we are at Col 0 or 1,
+        //we can check to the right without exceeding the bounds of the grid
+        if (col <= 1 && !patternMatch) {
+            //if the next resource to the right brick, we can continue checking to the right, otherwise we continue through the algorithm
+            if (rightOneCol.data("resource") === "brick") {
+                //if the next resource to the right is glass, we know we have a match
+                if (rightTwoCols.data("resource") === "glass") {
+                    currentLocation.addClass("factory");
+                    rightOneCol.addClass("factory");
+                    rightTwoCols.addClass("factory");
+                    patternMatch = true;
                 }
             }
-            if (col >= 2 && !patternMatch) {
-                if ($('#r' + row + 'c' + (col - 1)).data("resource") === "brick") {
-                    if ($('#r' + row + 'c' + (col - 2)).data("resource") === "glass") {
-                        $('#r' + row + 'c' + col).addClass("factory");
-                        $('#r' + row + 'c' + (col - 1)).addClass("factory");
-                        $('#r' + row + 'c' + (col - 2)).addClass("factory");
-                        patternMatch = true;
-                    }
+        }
+        //if we do not have a patternMatch, and we are at Col 2 or 3,
+        //we can check to the left without exceeding the bounds of the grid
+        if (col >= 2 && !patternMatch) {
+            //if the next resource to the left is brick, we can continue checking to the left, otherwise we continue through the algorithm
+            if (leftOneCol.data("resource") === "brick") {
+                //if the next resource to the left is glass, we know we have a match
+                if (leftTwoCols.data("resource") === "glass") {
+                    currentLocation.addClass("factory");
+                    leftOneCol.addClass("factory");
+                    leftTwoCols.addClass("factory");
+                    patternMatch = true;
                 }
             }
-            //check horizontals
-        } else {
-            //check verticals
-            if (row <= 1 && !patternMatch) {
-                if ($('#r' + (row + 1) + 'c' + col).data("resource") === "brick") {
-                    if ($('#r' + (row + 2) + 'c' + col).data("resource") === "brick") {
-                        console.log("found it!");
-                        patternMatch = true;
-                    }
+        }
+    }
+    //Check the glass path
+    else if (firstResource === "glass") {
+        //if we do not have a patternMatch, and we are at Row 0 or 1,
+        //we can check down the grid without exceeding the bounds of the grid
+        if (row <= 1 && !patternMatch) {
+            //if the next resource down is brick, we can continue checking down, otherwise we continue through the algorithm
+            if (downOneRow.data("resource") === "brick") {
+                if (downTwoRows.data("resource") === "brick") {
+                    currentLocation.addClass("factory");
+                    downOneRow.addClass("factory");
+                    downTwoRows.addClass("factory");
+                    patternMatch = true;
                 }
             }
-            if (row >= 2 && !patternMatch) {
-                if ($('#r' + (row - 1) + 'c' + col).data("resource") === "brick") {
-                    if ($('#r' + (row - 2) + 'c' + col).data("resource") === "brick") {
-                        console.log("found it!");
-                        patternMatch = true;
-                    }
+        }
+        //if we do not have a patternMatch, and we are at Row 2 or 3,
+        //we can check up the grid without exceeding the bounds of the grid
+        if (row >= 2 && !patternMatch) {
+            //if the next resource up is brick, we can continue checking up, otherwise we continue through the algorithm
+            if (upOneRow.data("resource") === "brick") {
+                if (upTwoRows.data("resource") === "brick") {
+                    currentLocation.addClass("factory");
+                    upOneRow.addClass("factory");
+                    upTwoRows.addClass("factory");
+                    patternMatch = true;
                 }
             }
-            if (col <= 1 && !patternMatch) {
-                if ($('#r' + row + 'c' + (col + 1)).data("resource") === "brick") {
-                    if ($('#r' + row + 'c' + (col + 2)).data("resource") === "brick") {
-                        console.log("found it!");
-                        patternMatch = true;
-                    }
+        }
+        //if we do not have a patternMatch, and we are at Col 0 or 1,
+        //we can check to the right without exceeding the bounds of the grid
+        if (col <= 1 && !patternMatch) {
+            //if the next resource to the right brick, we can continue checking to the right, otherwise we continue through the algorithm
+            if (rightOneCol.data("resource") === "brick") {
+                if (rightTwoCols.data("resource") === "brick") {
+                    currentLocation.addClass("factory");
+                    rightOneCol.addClass("factory");
+                    rightTwoCols.addClass("factory");
+                    patternMatch = true;
                 }
             }
-            if (col >= 2 && !patternMatch) {
-                if ($('#r' + row + 'c' + (col - 1)).data("resource") === "brick") {
-                    if ($('#r' + row + 'c' + (col - 2)).data("resource") === "brick") {
-                        console.log("found it!");
-                        patternMatch = true;
-                    }
+        }
+        //if we do not have a patternMatch, and we are at Col 2 or 3,
+        //we can check to the left without exceeding the bounds of the grid
+        if (col >= 2 && !patternMatch) {
+            //if the next resource to the left is brick, we can continue checking to the left, otherwise we continue through the algorithm
+            if (leftOneCol.data("resource") === "brick") {
+                if (leftTwoCols.data("resource") === "brick") {
+                    currentLocation.addClass("factory");
+                    leftOneCol.addClass("factory");
+                    leftTwoCols.addClass("factory");
+                    patternMatch = true;
                 }
             }
-            //check horizontals
         }
     }
 }
