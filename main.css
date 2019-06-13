@@ -4,6 +4,7 @@
     --glass: deepskyblue;
     --brick: firebrick;
     --wood: saddlebrown;
+    --factory: green;
 }
 
 .stone {
@@ -24,6 +25,10 @@
 
 .wood {
     background-color: var(--wood) !important;
+}
+
+.facory {
+    border: 2px solid var(--factory);
 }
 
 .gameContainer {
