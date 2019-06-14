@@ -76,6 +76,18 @@ function checkFactory(row, col, firstResource) {
     var leftCheckBrick = [col >= 2, [leftOneCol, "brick"],
         [leftTwoCols, "glass"]
     ];
+    var midCheck1 = [col >= 1 && col <= 2, [leftOneCol, "brick"],
+        [rightOneCol, "glass"]
+    ];
+    var midCheck2 = [col >= 1 && col <= 2, [leftOneCol, "glass"],
+        [rightOneCol, "brick"]
+    ];
+    var midCheck3 = [row >= 1 && row <= 2, [upOneRow, "brick"],
+        [downOneRow, "glass"]
+    ];
+    var midCheck4 = [row >= 1 && row <= 2, [upOneRow, "glass"],
+        [downOneRow, "brick"]
+    ];
     var downCheckGlass = [row <= 1, [downOneRow, "brick"],
         [downTwoRows, "brick"]
     ];
@@ -91,7 +103,7 @@ function checkFactory(row, col, firstResource) {
 
     var checkArray = [];
     if (firstResource === "brick") {
-        checkArray = [downCheckBrick, upCheckBrick, rightCheckBrick, leftCheckBrick];
+        checkArray = [downCheckBrick, upCheckBrick, rightCheckBrick, leftCheckBrick, midCheck1, midCheck2, midCheck3, midCheck4];
     } else if (firstResource === "glass") {
         checkArray = [downCheckGlass, upCheckGlass, rightCheckGlass, leftCheckGlass];
     }
