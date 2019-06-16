@@ -172,42 +172,46 @@ function checkCottage(row, col, firstResource) {
     var upOneRow = $('#r' + (row - 1) + 'c' + col);
     var rightOneCol = $('#r' + row + 'c' + (col + 1));
     var leftOneCol = $('#r' + row + 'c' + (col - 1));
+    var upRightDiag = $('#r' + (row - 1) + 'c' + (col + 1));
+    var upLeftDiag = $('#r' + (row - 1) + 'c' + (col - 1));
+    var downRightDiag = $('#r' + (row + 1) + 'c' + (col + 1));
+    var downLeftDiag = $('#r' + (row + 1) + 'c' + (col - 1));
     
-    var checkBrick0 = [, [rightOneCol, "glass"],
-        [upOneRow, "wheat"]
+    var checkBrick0 = [col <= 2 && row >=1, [rightOneCol, "glass"],
+        [upRightDiag, "wheat"]
     ];
-    var checkBrick1 = [, [leftOneCol, "glass"],
-        [downOneRow, "wheat"]
+    var checkBrick1 = [col >=1  && row >=1, [leftOneCol, "glass"],
+        [upLeftDiag, "wheat"]
     ];
-    var checkBrick2 = [, [rightOneCol, "glass"],
-        [upOneRow, "wheat"]
+    var checkBrick2 = [col <=2 && row <=2, [rightOneCol, "glass"],
+        [downRightDiag, "wheat"]
     ];
-    var checkBrick3 = [, [leftOneCol, "glass"],
-        [downOneRow, "wheat"]
+    var checkBrick3 = [col >=1 && row<=2, [leftOneCol, "glass"],
+        [downLeftDiag, "wheat"]
     ];
-    var checkGlass0 = [, [upOneRow, "wheat"],
+    var checkGlass0 = [col <= 2 && row >=1, [upOneRow, "wheat"],
         [leftOneCol, "brick"]
     ];
-    var checkGlass1 = [, [upOneRow, "wheat"],
+    var checkGlass1 = [col>=2 && row >=1, [upOneRow, "wheat"],
         [rightOneCol, "brick"]
     ];
-    var checkGlass2 = [, [downOneRow, "wheat"],
+    var checkGlass2 = [col >=1 && row<=2, [downOneRow, "wheat"],
         [leftOneCol, "brick"]
     ];
-    var checkGlass3 = [, [downOneRow, "wheat"],
+    var checkGlass3 = [col>=2 && row<=2, [downOneRow, "wheat"],
         [rightOneCol, "brick"]
     ];
-    var checkWheat0 = [, [downOneRow, "glass"],
-        [leftOneCol, "brick"]
+    var checkWheat0 = [col >=1 && row<=2, [downOneRow, "glass"],
+        [downLeftDiag, "brick"]
     ];
-    var checkWheat1 = [, [downOneRow, "glass"],
-        [rightOneCol, "brick"]
+    var checkWheat1 = [col>=2 && row<=2, [downOneRow, "glass"],
+        [downRightDiag, "brick"]
     ];
-    var checkWheat2 = [, [upOneRow, "glass"],
-        [leftOneCol, "brick"]
+    var checkWheat2 = [col <= 2 && row >=1, [upOneRow, "glass"],
+        [upLeftDiag, "brick"]
     ];
-    var checkWheat3 = [, [downOneRow, "glass"],
-        [rightOneCol, "brick"]
+    var checkWheat3 = [col>=2 && row >=1, [upOneRow, "glass"],
+        [upRightDiag, "brick"]
     ];
 
     var checkArray = [];
@@ -231,6 +235,71 @@ function checkCottage(row, col, firstResource) {
                         checkCmd[1][0].addClass("cottageFound");
                         checkCmd[2][0].addClass("cottageFound");
                         patternMatch = true;
+                    }
+                }
+            }
+        })
+    }
+}
+function checkChapel(row, col, firstResource) {
+    var patternMatch = false;
+    var currentLocation = $('#r' + row + 'c' + col);
+    var downOneRow = $('#r' + (row + 1) + 'c' + col);
+    var upOneRow = $('#r' + (row - 1) + 'c' + col);
+    var rightOneCol = $('#r' + row + 'c' + (col + 1));
+    var leftOneCol = $('#r' + row + 'c' + (col - 1));
+    var upRightDiag = $('#r' + (row - 1) + 'c' + (col + 1));
+    var upLeftDiag = $('#r' + (row - 1) + 'c' + (col - 1));
+    var downRightDiag = $('#r' + (row + 1) + 'c' + (col + 1));
+    var downLeftDiag = $('#r' + (row + 1) + 'c' + (col - 1));
+    
+    var checkStone0 = [col <= 2 && row >=1, [rightOneCol, "glass"],
+        [upRightDiag, "wheat"]
+    ];
+    var checkStone1 = [col >=1  && row >=1, [leftOneCol, "glass"],
+        [upLeftDiag, "wheat"]
+    ];
+    var checkStone2 = [col <=2 && row <=2, [rightOneCol, "glass"],
+        [downRightDiag, "wheat"]
+    ];
+    var checkStone3 = [col >=1 && row<=2, [leftOneCol, "glass"],
+        [downLeftDiag, "wheat"]
+    ];
+    var checkGlass0 = [col <= 2 && row >=1, [upOneRow, "wheat"],
+        [leftOneCol, "brick"]
+    ];
+    var checkGlass1 = [col>=2 && row >=1, [upOneRow, "wheat"],
+        [rightOneCol, "brick"]
+    ];
+    var checkGlass2 = [col >=1 && row<=2, [downOneRow, "wheat"],
+        [leftOneCol, "brick"]
+    ];
+    var checkGlass3 = [col>=2 && row<=2, [downOneRow, "wheat"],
+        [rightOneCol, "brick"]
+    ];
+
+    var checkArray = [];
+    if (firstResource === "stone") {
+        checkArray = [checkStone0,checkStone1,checkStone2,checkStone3];
+    } else if (firstResource === "glass") {
+        checkArray = [checkGlass0,checkGlass1,checkGlass2,checkGlass3];
+    }
+
+    if (checkArray.length > 0) {
+        checkArray.forEach(function(checkCmd) {
+            //if we do not have a patternMatch, and we are in the row/col bounds,
+            //we can check down the grid without exceeding the bounds of the grid
+            if (checkCmd[0] && !patternMatch) {
+                //if we find the next resource, we can continue checking that direction, otherwise we continue through the algorithm
+                if (checkCmd[1][0].data("resource") === checkCmd[1][1]) {
+                    if (checkCmd[2][0].data("resource") === checkCmd[2][1]) {
+                        if (checkCmd[3][0].data("resource") === checkCmd[3][1]) {
+                            currentLocation.addClass("chapelFound");
+                            checkCmd[1][0].addClass("chapelFound");
+                            checkCmd[2][0].addClass("chapelFound");
+                            checkCmd[3][0].addClass("chapelFound");
+                            patternMatch = true;
+                        }
                     }
                 }
             }
