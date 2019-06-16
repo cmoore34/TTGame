@@ -35,6 +35,10 @@ html {
     border: 3px solid var(--factory) !important;
     filter: brightness(120%);
 }
+.wellFound {
+    border: 3px solid var(--stone) !important;
+    filter: brightness(120%);
+}
 
 .gameContainer {
     display: grid;

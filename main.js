@@ -49,9 +49,48 @@ function refillHand(dealStart) {
 
 function checkBuilding(row, col, firstResource) {
     checkFactory(row, col, firstResource);
+    checkWell(row,col,firstResource);
 }
 
+function checkWell(row,col,firstResource)
+{
+    var patternMatch = false;
+    var currentLocation = $('#r' + row + 'c' + col);
+    var downOneRow = $('#r' + (row + 1) + 'c' + col);
+    var upOneRow = $('#r' + (row - 1) + 'c' + col);
+    var leftOneCol = $('#r' + row + 'c' + (col - 1));
+    var rightOneCol = $('#r' + row + 'c' + (col + 1));
 
+    var downCheckWood = [row <= 2, [downOneRow, "stone"]];
+    var upCheckWood = [row >= 2, [upOneRow, "stone"]];
+    var leftCheckWood = [col <= 2, [leftOneCol, "stone"]];
+    var rightCheckWood = [col >= 2, [rightOneCol, "stone"]];
+    var downCheckStone = [row <= 2, [downOneRow, "wood"]];
+    var upCheckStone = [row >= 2, [upOneRow, "wood"]];
+    var leftCheckStone = [col <= 2, [leftOneCol, "wood"]];
+    var rightCheckStone = [col >= 2, [rightOneCol, "wood"]];
+
+    var checkArray = [];
+    if (firstResource === "wood") {
+        checkArray = [downCheckWood,upCheckWood,leftCheckWood,rightCheckWood];
+    } else if (firstResource === "stone") {
+        checkArray = [downCheckStone,upCheckStone,leftCheckStone,rightCheckStone];
+    }
+    if (checkArray.length > 0) {
+        checkArray.forEach(function(checkCmd) {
+            //if we do not have a patternMatch, and we are in the row/col bounds,
+            //we can check down the grid without exceeding the bounds of the grid
+            if (checkCmd[0] && !patternMatch) {
+                //if we find the next resource, we can continue checking that direction, otherwise we continue through the algorithm
+                if (checkCmd[1][0].data("resource") === checkCmd[1][1]) {
+                        currentLocation.addClass("wellFound");
+                        checkCmd[1][0].addClass("wellFound");
+                        patternMatch = true;
+                }
+            }
+        })
+    }
+}
 function checkFactory(row, col, firstResource) {
     var patternMatch = false;
     var currentLocation = $('#r' + row + 'c' + col);
@@ -63,7 +102,7 @@ function checkFactory(row, col, firstResource) {
     var rightTwoCols = $('#r' + row + 'c' + (col + 2));
     var leftOneCol = $('#r' + row + 'c' + (col - 1));
     var leftTwoCols = $('#r' + row + 'c' + (col - 2));
-    //hairbrained idea for looping
+    
     var downCheckBrick = [row <= 1, [downOneRow, "brick"],
         [downTwoRows, "glass"]
     ];
@@ -109,13 +148,11 @@ function checkFactory(row, col, firstResource) {
     }
     if (checkArray.length > 0) {
         checkArray.forEach(function(checkCmd) {
-            //if we do not have a patternMatch, and we are at Row 0 or 1,
+            //if we do not have a patternMatch, and we are in the row/col bounds,
             //we can check down the grid without exceeding the bounds of the grid
             if (checkCmd[0] && !patternMatch) {
-                debugger;
-                //if the next resource down is brick, we can continue checking down, otherwise we continue through the algorithm
+                //if we find the next resource, we can continue checking that direction, otherwise we continue through the algorithm
                 if (checkCmd[1][0].data("resource") === checkCmd[1][1]) {
-                    //if the next resource down is glass, we know we have a match
                     if (checkCmd[2][0].data("resource") === checkCmd[2][1]) {
                         currentLocation.addClass("factoryFound");
                         checkCmd[1][0].addClass("factoryFound");
@@ -126,123 +163,4 @@ function checkFactory(row, col, firstResource) {
             }
         })
     }
-
-    // //Check Brick path first
-    // if (firstResource === "brick") {
-    //     //if we do not have a patternMatch, and we are at Row 0 or 1,
-    //     //we can check down the grid without exceeding the bounds of the grid
-    //     if (row <= 1 && !patternMatch) {
-    //         //if the next resource down is brick, we can continue checking down, otherwise we continue through the algorithm
-    //         if (downOneRow.data("resource") === "brick") {
-    //             //if the next resource down is glass, we know we have a match
-    //             if (downTwoRows.data("resource") === "glass") {
-    //                 currentLocation.addClass("factoryFound");
-    //                 downOneRow.addClass("factoryFound");
-    //                 downTwoRows.addClass("factoryFound");
-    //                 patternMatch = true;
-    //             }
-    //         }
-    //     }
-    //     //if we do not have a patternMatch, and we are at Row 2 or 3,
-    //     //we can check up the grid without exceeding the bounds of the grid
-    //     if (row >= 2 && !patternMatch) {
-    //         //if the next resource up is brick, we can continue checking up, otherwise we continue through the algorithm
-    //         if (upOneRow.data("resource") === "brick") {
-    //             //if the next resource up is glass, we know we have a match
-    //             if (upTwoRows.data("resource") === "glass") {
-    //                 currentLocation.addClass("factoryFound");
-    //                 upOneRow.addClass("factoryFound");
-    //                 upTwoRows.addClass("factoryFound");
-    //                 patternMatch = true;
-    //             }
-    //         }
-    //     }
-    //     //if we do not have a patternMatch, and we are at Col 0 or 1,
-    //     //we can check to the right without exceeding the bounds of the grid
-    //     if (col <= 1 && !patternMatch) {
-    //         //if the next resource to the right brick, we can continue checking to the right, otherwise we continue through the algorithm
-    //         if (rightOneCol.data("resource") === "brick") {
-    //             //if the next resource to the right is glass, we know we have a match
-    //             if (rightTwoCols.data("resource") === "glass") {
-    //                 currentLocation.addClass("factoryFound");
-    //                 rightOneCol.addClass("factoryFound");
-    //                 rightTwoCols.addClass("factoryFound");
-    //                 patternMatch = true;
-    //             }
-    //         }
-    //     }
-    //     //if we do not have a patternMatch, and we are at Col 2 or 3,
-    //     //we can check to the left without exceeding the bounds of the grid
-    //     if (col >= 2 && !patternMatch) {
-    //         //if the next resource to the left is brick, we can continue checking to the left, otherwise we continue through the algorithm
-    //         if (leftOneCol.data("resource") === "brick") {
-    //             //if the next resource to the left is glass, we know we have a match
-    //             if (leftTwoCols.data("resource") === "glass") {
-    //                 currentLocation.addClass("factoryFound");
-    //                 leftOneCol.addClass("factoryFound");
-    //                 leftTwoCols.addClass("factoryFound");
-    //                 patternMatch = true;
-    //             }
-    //         }
-    //     }
-    // }
-    // //Check the glass path
-    // else if (firstResource === "glass") {
-    //     //if we do not have a patternMatch, and we are at Row 0 or 1,
-    //     //we can check down the grid without exceeding the bounds of the grid
-    //     if (row <= 1 && !patternMatch) {
-    //         //if the next resource down is brick, we can continue checking down, otherwise we continue through the algorithm
-    //         if (downOneRow.data("resource") === "brick") {
-    //             //if the next resource down is brick, we know we have a match
-    //             if (downTwoRows.data("resource") === "brick") {
-    //                 currentLocation.addClass("factoryFound");
-    //                 downOneRow.addClass("factoryFound");
-    //                 downTwoRows.addClass("factoryFound");
-    //                 patternMatch = true;
-    //             }
-    //         }
-    //     }
-    //     //if we do not have a patternMatch, and we are at Row 2 or 3,
-    //     //we can check up the grid without exceeding the bounds of the grid
-    //     if (row >= 2 && !patternMatch) {
-    //         //if the next resource up is brick, we can continue checking up, otherwise we continue through the algorithm
-    //         if (upOneRow.data("resource") === "brick") {
-    //             //if the next resource up is brick, we know we have a match
-    //             if (upTwoRows.data("resource") === "brick") {
-    //                 currentLocation.addClass("factoryFound");
-    //                 upOneRow.addClass("factoryFound");
-    //                 upTwoRows.addClass("factoryFound");
-    //                 patternMatch = true;
-    //             }
-    //         }
-    //     }
-    //     //if we do not have a patternMatch, and we are at Col 0 or 1,
-    //     //we can check to the right without exceeding the bounds of the grid
-    //     if (col <= 1 && !patternMatch) {
-    //         //if the next resource to the right brick, we can continue checking to the right, otherwise we continue through the algorithm
-    //         if (rightOneCol.data("resource") === "brick") {
-    //             //if the next resource to the right is brick, we know we have a match
-    //             if (rightTwoCols.data("resource") === "brick") {
-    //                 currentLocation.addClass("factoryFound");
-    //                 rightOneCol.addClass("factoryFound");
-    //                 rightTwoCols.addClass("factoryFound");
-    //                 patternMatch = true;
-    //             }
-    //         }
-    //     }
-    //     //if we do not have a patternMatch, and we are at Col 2 or 3,
-    //     //we can check to the left without exceeding the bounds of the grid
-    //     if (col >= 2 && !patternMatch) {
-    //         //if the next resource to the left is brick, we can continue checking to the left, otherwise we continue through the algorithm
-    //         if (leftOneCol.data("resource") === "brick") {
-    //             //if the next resource to the left is brick, we know we have a match
-    //             if (leftTwoCols.data("resource") === "brick") {
-    //                 currentLocation.addClass("factoryFound");
-    //                 leftOneCol.addClass("factoryFound");
-    //                 leftTwoCols.addClass("factoryFound");
-    //                 patternMatch = true;
-    //             }
-    //         }
-    //     }
-    // }
 }
