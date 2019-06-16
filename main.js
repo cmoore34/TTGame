@@ -52,7 +52,7 @@ function checkBuilding(row, col, firstResource) {
     checkWell(row,col,firstResource);
 }
 
-function checkWell(row,col,firstResource)
+function checkWell(row, col, firstResource)
 {
     var patternMatch = false;
     var currentLocation = $('#r' + row + 'c' + col);
