@@ -50,6 +50,7 @@ function refillHand(dealStart) {
 function checkBuilding(row, col, firstResource) {
     checkTavern(row, col, firstResource);
     checkWell(row,col,firstResource);
+    checkCottage(row, col, firstResource);
 }
 
 function checkWell(row, col, firstResource)
@@ -157,6 +158,78 @@ function checkTavern(row, col, firstResource) {
                         currentLocation.addClass("tavernFound");
                         checkCmd[1][0].addClass("tavernFound");
                         checkCmd[2][0].addClass("tavernFound");
+                        patternMatch = true;
+                    }
+                }
+            }
+        })
+    }
+}
+function checkCottage(row, col, firstResource) {
+    var patternMatch = false;
+    var currentLocation = $('#r' + row + 'c' + col);
+    var downOneRow = $('#r' + (row + 1) + 'c' + col);
+    var upOneRow = $('#r' + (row - 1) + 'c' + col);
+    var rightOneCol = $('#r' + row + 'c' + (col + 1));
+    var leftOneCol = $('#r' + row + 'c' + (col - 1));
+    
+    var checkBrick0 = [, [rightOneCol, "glass"],
+        [upOneRow, "wheat"]
+    ];
+    var checkBrick1 = [, [leftOneCol, "glass"],
+        [downOneRow, "wheat"]
+    ];
+    var checkBrick2 = [, [rightOneCol, "glass"],
+        [upOneRow, "wheat"]
+    ];
+    var checkBrick3 = [, [leftOneCol, "glass"],
+        [downOneRow, "wheat"]
+    ];
+    var checkGlass0 = [, [upOneRow, "wheat"],
+        [leftOneCol, "brick"]
+    ];
+    var checkGlass1 = [, [upOneRow, "wheat"],
+        [rightOneCol, "brick"]
+    ];
+    var checkGlass2 = [, [downOneRow, "wheat"],
+        [leftOneCol, "brick"]
+    ];
+    var checkGlass3 = [, [downOneRow, "wheat"],
+        [rightOneCol, "brick"]
+    ];
+    var checkWheat0 = [, [downOneRow, "glass"],
+        [leftOneCol, "brick"]
+    ];
+    var checkWheat1 = [, [downOneRow, "glass"],
+        [rightOneCol, "brick"]
+    ];
+    var checkWheat2 = [, [upOneRow, "glass"],
+        [leftOneCol, "brick"]
+    ];
+    var checkWheat3 = [, [downOneRow, "glass"],
+        [rightOneCol, "brick"]
+    ];
+
+    var checkArray = [];
+    if (firstResource === "brick") {
+        checkArray = [checkBrick0,checkBrick1,checkBrick2,checkBrick3];
+    } else if (firstResource === "glass") {
+        checkArray = [checkGlass0,checkGlass1,checkGlass2,checkGlass3];
+    } else if (firstResource === "wheat") {
+        checkArray = [checkWheat0,checkWheat1,checkWheat2,checkWheat3];
+    }
+
+    if (checkArray.length > 0) {
+        checkArray.forEach(function(checkCmd) {
+            //if we do not have a patternMatch, and we are in the row/col bounds,
+            //we can check down the grid without exceeding the bounds of the grid
+            if (checkCmd[0] && !patternMatch) {
+                //if we find the next resource, we can continue checking that direction, otherwise we continue through the algorithm
+                if (checkCmd[1][0].data("resource") === checkCmd[1][1]) {
+                    if (checkCmd[2][0].data("resource") === checkCmd[2][1]) {
+                        currentLocation.addClass("cottageFound");
+                        checkCmd[1][0].addClass("cottageFound");
+                        checkCmd[2][0].addClass("cottageFound");
                         patternMatch = true;
                     }
                 }

@@ -5,6 +5,7 @@
     --brick: firebrick;
     --wood: saddlebrown;
     --tavern: green;
+    --cottage: blue;
 }
 
 html {
@@ -37,6 +38,10 @@ html {
 }
 .wellFound {
     border: 3px solid var(--stone) !important;
+    filter: brightness(120%);
+}
+.cottageFound {
+    border: 3px solid var(--cottage) !important;
     filter: brightness(120%);
 }
 
