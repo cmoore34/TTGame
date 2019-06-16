@@ -48,7 +48,7 @@ function refillHand(dealStart) {
 }
 
 function checkBuilding(row, col, firstResource) {
-    checkFactory(row, col, firstResource);
+    checkTavern(row, col, firstResource);
     checkWell(row,col,firstResource);
 }
 
@@ -91,7 +91,7 @@ function checkWell(row, col, firstResource)
         })
     }
 }
-function checkFactory(row, col, firstResource) {
+function checkTavern(row, col, firstResource) {
     var patternMatch = false;
     var currentLocation = $('#r' + row + 'c' + col);
     var downOneRow = $('#r' + (row + 1) + 'c' + col);
@@ -154,9 +154,9 @@ function checkFactory(row, col, firstResource) {
                 //if we find the next resource, we can continue checking that direction, otherwise we continue through the algorithm
                 if (checkCmd[1][0].data("resource") === checkCmd[1][1]) {
                     if (checkCmd[2][0].data("resource") === checkCmd[2][1]) {
-                        currentLocation.addClass("factoryFound");
-                        checkCmd[1][0].addClass("factoryFound");
-                        checkCmd[2][0].addClass("factoryFound");
+                        currentLocation.addClass("tavernFound");
+                        checkCmd[1][0].addClass("tavernFound");
+                        checkCmd[2][0].addClass("tavernFound");
                         patternMatch = true;
                     }
                 }

@@ -4,7 +4,7 @@
     --glass: deepskyblue;
     --brick: firebrick;
     --wood: saddlebrown;
-    --factory: green;
+    --tavern: green;
 }
 
 html {
@@ -31,8 +31,8 @@ html {
     background-color: var(--wood) !important;
 }
 
-.factoryFound {
-    border: 3px solid var(--factory) !important;
+.tavernFound {
+    border: 3px solid var(--tavern) !important;
     filter: brightness(120%);
 }
 .wellFound {
