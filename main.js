@@ -291,13 +291,13 @@ function checkChapel(row, col, firstResource) {
     [rightOneCol, "glass"],[rightTwoCols, "stone"]//Pattern4
     ];
     var checkStone8 = [col>=1 && row<=1, [downOneRow, "glass"],
-    [downTwoRows, "glass"],[downTwoLeftOne, "stone"]//Pattern5
+    [downTwoRows, "stone"],[downTwoLeftOne, "glass"]//Pattern5
     ];
     var checkStone9 = [col>=1 && row>=2, [upOneRow, "glass"],
     [upTwoRows, "stone"],[leftOneCol, "glass"]//Pattern5
     ];
     var checkStone10 = [col<=2 && row<=1, [downOneRow, "glass"],
-    [downTwoRows, "stone"],[downTwoRightOne, "stone"]//Pattern6
+    [downTwoRows, "stone"],[downTwoRightOne, "glass"]//Pattern6
     ];
     var checkStone11 = [col<=2 && row>=2, [upOneRow, "glass"],
     [upTwoRows, "stone"],[rightOneCol, "glass"]//Pattern6
@@ -315,51 +315,51 @@ function checkChapel(row, col, firstResource) {
     [upTwoRows, "stone"],[upTwoRightOne, "glass"]//Pattern8
     ];
     var checkGlass0 = [col>=2 && row<=2, [downOneRow, "stone"],
-    [downLeftDiag, "glass"],[downOneLeftTwo, "stone"]//Pattern1
+    [downLeftDiag, "glass"],[leftTwoDownOne, "stone"]//Pattern1
     ];
     var checkGlass1 = [col>=1 && col<=2 && row>=1, [leftOneCol, "stone"],
     [rightOneCol, "stone"],[upRightDiag, "glass"]//Pattern1
     ];
-    var checkGlass2 = [, [downOneRow, "stone"],
-    [downRightDiag, "glass"],[downOneRightTwo, "stone"]//Pattern2
+    var checkGlass2 = [col<=1 && row>=1, [downOneRow, "stone"],
+    [downRightDiag, "glass"],[rightTwoDownOne, "stone"]//Pattern2
     ];
-    var checkGlass3 = [, [leftOneCol, "stone"],
+    var checkGlass3 = [col>=1 && col<=2 && row>=1, [leftOneCol, "stone"],
     [rightOneCol, "stone"],[upLeftDiag, "glass"]//Pattern2
     ];
-    var checkGlass4 = [, [upOneRow, "stone"],
-    [upLeftDiag, "glass"],[upOneLeftTwo, "stone"]//Pattern3
+    var checkGlass4 = [col>=2 && row>=1, [upOneRow, "stone"],
+    [upLeftDiag, "glass"],[leftTwoUpOne, "stone"]//Pattern3
     ];
-    var checkGlass5 = [, [leftOneCol, "stone"],
+    var checkGlass5 = [col>=1 && col<=2 && row<=2, [leftOneCol, "stone"],
     [rightOneCol, "stone"],[downRightDiag, "glass"]//Pattern3
     ];
-    var checkGlass6 = [, [upOneRow, "stone"],
-    [upRightDiag, "glass"],[upOneRightTwo, "stone"]//Pattern4
+    var checkGlass6 = [col<=1 && row>=1, [upOneRow, "stone"],
+    [upRightDiag, "glass"],[rightTwoUpOne, "stone"]//Pattern4
     ];
-    var checkGlass7 = [, [leftOneCol, "stone"],
+    var checkGlass7 = [col>=1 && col<=2 && row<=2, [leftOneCol, "stone"],
     [rightOneCol, "stone"],[downLeftDiag, "glass"]//Pattern4
     ];
-    var checkGlass8 = [, [rightOneCol, "stone"],
+    var checkGlass8 = [col <= 2 && row >= 2, [rightOneCol, "stone"],
     [upRightDiag, "glass"],[upTwoRightOne, "stone"]//Pattern5
     ];
-    var checkGlass9 = [, [upOneRow, "stone"],
+    var checkGlass9 = [col>=1 && row>=1 && row<=2, [upOneRow, "stone"],
     [downOneRow, "stone"],[downLeftDiag, "glass"]//Pattern5
     ];
-    var checkGlass10 = [, [leftOneCol, "stone"],
+    var checkGlass10 = [col >= 1 && row >= 2, [leftOneCol, "stone"],
     [upLeftDiag, "glass"],[upTwoLeftOne, "stone"]//Pattern6
     ];
-    var checkGlass11 = [, [upOneRow, "stone"],
+    var checkGlass11 = [col<=2 && row>=1 && row<=2, [upOneRow, "stone"],
     [downOneRow, "stone"],[downRightDiag, "glass"]//Pattern6
     ];
-    var checkGlass12 = [, [rightOneCol, "stone"],
+    var checkGlass12 = [col <= 2 && row <= 1, [rightOneCol, "stone"],
     [downRightDiag, "glass"],[downTwoRightOne, "stone"]//Pattern7
     ];
-    var checkGlass13 = [, [upOneRow, "stone"],
+    var checkGlass13 = [col>=1 && row>=1 && row<=2, [upOneRow, "stone"],
     [downOneRow, "stone"],[upLeftDiag, "glass"]//Pattern7
     ];
-    var checkGlass14 = [, [leftOneCol, "stone"],
+    var checkGlass14 = [col >= 1 && row <= 1, [leftOneCol, "stone"],
     [downLeftDiag, "glass"],[downTwoLeftOne, "stone"]//Pattern8
     ];
-    var checkGlass15 = [, [upOneRow, "stone"],
+    var checkGlass15 = [col<=2 && row>=1 && row<=2, [upOneRow, "stone"],
     [downOneRow, "stone"],[upRightDiag, "glass"]//Pattern8
     ];
 
