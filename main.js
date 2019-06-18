@@ -75,22 +75,24 @@ function checkBuilding(row, col, firstResource) {
     let nav = new navPatterns(row,col);
 
     checkTavern(row, col, firstResource, nav);
-    checkWell(row,col,firstResource, nav);
+    checkWell(row, col, firstResource, nav);
     checkCottage(row, col, firstResource, nav);
     checkChapel(row, col, firstResource, nav);
+    //checkTheatre(row, col, firstResource, nav);
+    //checkFactory(row, col, firstResource, nav);
 }
 
 function checkWell(row, col, firstResource, nav) {
     var patternMatch = false;
 
     var downCheckWood = [row <= 2, [nav.downOneRow, "stone"]];
-    var upCheckWood = [row >= 2, [nav.upOneRow, "stone"]];
-    var leftCheckWood = [col <= 2, [nav.leftOneCol, "stone"]];
-    var rightCheckWood = [col >= 2, [nav.rightOneCol, "stone"]];
+    var upCheckWood = [row >= 1, [nav.upOneRow, "stone"]];
+    var leftCheckWood = [col >= 1, [nav.leftOneCol, "stone"]];
+    var rightCheckWood = [col <= 2, [nav.rightOneCol, "stone"]];
     var downCheckStone = [row <= 2, [nav.downOneRow, "wood"]];
-    var upCheckStone = [row >= 2, [nav.upOneRow, "wood"]];
-    var leftCheckStone = [col <= 2, [nav.leftOneCol, "wood"]];
-    var rightCheckStone = [col >= 2, [nav.rightOneCol, "wood"]];
+    var upCheckStone = [row >= 1, [nav.upOneRow, "wood"]];
+    var leftCheckStone = [col >= 1, [nav.leftOneCol, "wood"]];
+    var rightCheckStone = [col <= 2, [nav.rightOneCol, "wood"]];
 
     var checkArray = [];
     if (firstResource === "wood") {
@@ -364,6 +366,76 @@ function checkChapel(row, col, firstResource, nav) {
                             checkCmd[1][0].addClass("chapelFound");
                             checkCmd[2][0].addClass("chapelFound");
                             checkCmd[3][0].addClass("chapelFound");
+                            patternMatch = true;
+                        }
+                    }
+                }
+            }
+        })
+    }
+}
+function checkTheatre(row, col, firstResource, nav){
+    var patternMatch = false;
+
+    var checkWood0 = [col <= 1 && row >=1, [nav.rightOneCol, "glass"],
+    [nav.upRightDiag, "stone"],[nav.rightTwoCols, "wood"] //Pattern1
+    ];
+    var checkWood1 = [col >= 2 && row >=1, [nav.leftOneCol, "glass"],
+    [nav.upLeftDiag, "stone"],[nav.leftTwoCols, "wood"]//Pattern1
+    ];
+    var checkWood2 = [col <=1 && row <=2, [nav.rightOneCol, "glass"],
+    [nav.downRightDiag, "stone"],[nav.rightTwoCols, "wood"]//Pattern2
+    ];
+    var checkWood3 = [col >=2 && row<=2, [nav.leftOneCol, "glass"],
+    [nav.downLeftDiag, "stone"],[nav.leftTwoCols, "wood"]//Pattern2
+    ];
+    var checkWood4 = [col >= 1 && row <=1, [nav.downOneRow, "glass"],
+    [nav.downLeftDiag, "stone"],[nav.downTwoRows, "wood"] //Pattern3
+    ];
+    var checkWood5 = [col>=1 && row >=2, [nav.upOneRow, "glass"],
+    [nav.upLeftDiag, "stone"],[nav.upTwoRows, "wood"]//Pattern3
+    ];
+    var checkWood6 = [col <=2 && row<=1, [nav.downOneRow, "glass"],
+    [nav.downRightDiag, "stone"],[nav.downTwoRows, "wood"]//Pattern4
+    ];
+    var checkWood7 = [col<=2 && row>=2, [nav.upOneRow, "glass"],
+    [nav.upRightDiag, "stone"],[nav.upTwoRows, "wood"]//Pattern4
+    ];
+    var checkGlass0 = [, [nav.leftOneCol, "wood"],
+    [nav.rightOneCol, "wood"],[nav.upOneRow, "stone"] //Pattern1
+    ];
+    var checkGlass1 = [, [nav.leftOneCol, "wood"],
+    [nav.rightOneCol, "wood"],[nav.upOneRow, "stone"]//Pattern2
+    ];
+    var checkGlass2 = [, [nav.upOneRow, "wood"],
+    [nav.downOneRow, "wood"],[nav.leftOneCol, "stone"]//Pattern3
+    ];
+    var checkGlass3 = [, [nav.upOneRow, "wood"],
+    [nav.downOneRow, "wood"],[nav.rightOneCol, "stone"]//Pattern4
+    ];
+
+    var checkArray = [];
+    if (firstResource === "wood") {
+        checkArray = [];
+    } else if (firstResource === "glass") {
+        checkArray = [];
+    } else if (firstResource === "stone") {
+        checkArray = [];
+    }
+
+    if (checkArray.length > 0) {
+        checkArray.forEach(function(checkCmd) {
+            //if we do not have a patternMatch, and we are in the row/col bounds,
+            //we can check down the grid without exceeding the bounds of the grid
+            if (checkCmd[0] && !patternMatch) {
+                //if we find the next resource, we can continue checking that direction, otherwise we continue through the algorithm
+                if (checkCmd[1][0].data("resource") === checkCmd[1][1]) {
+                    if (checkCmd[2][0].data("resource") === checkCmd[2][1]) {
+                        if (checkCmd[3][0].data("resource") === checkCmd[3][1]) {
+                            nav.currentLocation.addClass("theaterFound");
+                            checkCmd[1][0].addClass("theaterFound");
+                            checkCmd[2][0].addClass("theaterFound");
+                            checkCmd[3][0].addClass("theaterFound");
                             patternMatch = true;
                         }
                     }
