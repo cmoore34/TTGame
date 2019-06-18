@@ -6,6 +6,7 @@
     --wood: saddlebrown;
     --tavern: green;
     --cottage: blue;
+    --chapel:gold;
 }
 
 html {
@@ -42,6 +43,10 @@ html {
 }
 .cottageFound {
     border: 3px solid var(--cottage) !important;
+    filter: brightness(120%);
+}
+.chapelFound {
+    border: 3px solid var(--chapel) !important;
     filter: brightness(120%);
 }
 

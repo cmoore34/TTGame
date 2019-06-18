@@ -51,6 +51,7 @@ function checkBuilding(row, col, firstResource) {
     checkTavern(row, col, firstResource);
     checkWell(row,col,firstResource);
     checkCottage(row, col, firstResource);
+    checkChapel(row, col, firstResource);
 }
 
 function checkWell(row, col, firstResource)
@@ -245,44 +246,128 @@ function checkChapel(row, col, firstResource) {
     var patternMatch = false;
     var currentLocation = $('#r' + row + 'c' + col);
     var downOneRow = $('#r' + (row + 1) + 'c' + col);
+    var downTwoRows = $('#r' + (row + 2) + 'c' + col);
     var upOneRow = $('#r' + (row - 1) + 'c' + col);
+    var upTwoRows = $('#r' + (row - 2) + 'c' + col);
     var rightOneCol = $('#r' + row + 'c' + (col + 1));
+    var rightTwoCols = $('#r' + row + 'c' + (col + 2));
     var leftOneCol = $('#r' + row + 'c' + (col - 1));
+    var leftTwoCols = $('#r' + row + 'c' + (col - 2));
+    var rightTwoUpOne = $('#r' + (row - 1) + 'c' + (col + 2));
+    var leftTwoUpOne = $('#r' + (row - 1) + 'c' + (col - 2));
+    var rightTwoDownOne = $('#r' + (row + 1) + 'c' + (col + 2));
+    var leftTwoDownOne = $('#r' + (row + 1) + 'c' + (col - 2));
+    var downTwoLeftOne = $('#r' + (row + 2) + 'c' + (col - 1));
+    var downTwoRightOne = $('#r' + (row + 2) + 'c' + (col + 1));
+    var upTwoLeftOne = $('#r' + (row - 2) + 'c' + (col - 1));
+    var upTwoRightOne = $('#r' + (row - 2) + 'c' + (col + 1));
     var upRightDiag = $('#r' + (row - 1) + 'c' + (col + 1));
     var upLeftDiag = $('#r' + (row - 1) + 'c' + (col - 1));
     var downRightDiag = $('#r' + (row + 1) + 'c' + (col + 1));
     var downLeftDiag = $('#r' + (row + 1) + 'c' + (col - 1));
     
-    var checkStone0 = [col <= 2 && row >=1, [rightOneCol, "glass"],
-        [upRightDiag, "wheat"]
+    var checkStone0 = [col <= 1 && row >=1, [rightOneCol, "glass"],
+        [rightTwoCols, "stone"],[rightTwoUpOne, "glass"] //Pattern1
     ];
-    var checkStone1 = [col >=1  && row >=1, [leftOneCol, "glass"],
-        [upLeftDiag, "wheat"]
+    var checkStone1 = [col >= 2 && row >=1, [upOneRow, "glass"],
+    [leftOneCol, "glass"],[leftTwoCols, "stone"]//Pattern1
     ];
-    var checkStone2 = [col <=2 && row <=2, [rightOneCol, "glass"],
-        [downRightDiag, "wheat"]
+    var checkStone2 = [col >=2 && row >=1, [leftOneCol, "glass"],
+    [leftTwoCols, "stone"],[leftTwoUpOne, "glass"]//Pattern2
     ];
-    var checkStone3 = [col >=1 && row<=2, [leftOneCol, "glass"],
-        [downLeftDiag, "wheat"]
+    var checkStone3 = [col >=1 && row<=2, [upOneRow, "glass"],
+    [rightOneCol, "glass"],[rightTwoCols, "stone"]//Pattern2
     ];
-    var checkGlass0 = [col <= 2 && row >=1, [upOneRow, "wheat"],
-        [leftOneCol, "brick"]
+    var checkStone4 = [col <= 1 && row <=2, [rightOneCol, "glass"],
+    [rightTwoCols, "stone"],[rightTwoDownOne, "glass"] //Pattern3
     ];
-    var checkGlass1 = [col>=2 && row >=1, [upOneRow, "wheat"],
-        [rightOneCol, "brick"]
+    var checkStone5 = [col>=2 && row <=2, [downOneRow, "glass"],
+    [leftOneCol, "glass"],[leftTwoCols, "stone"]//Pattern3
     ];
-    var checkGlass2 = [col >=1 && row<=2, [downOneRow, "wheat"],
-        [leftOneCol, "brick"]
+    var checkStone6 = [col >=2 && row>=2, [leftOneCol, "glass"],
+    [leftTwoCols, "stone"],[leftTwoDownOne, "glass"]//Pattern4
     ];
-    var checkGlass3 = [col>=2 && row<=2, [downOneRow, "wheat"],
-        [rightOneCol, "brick"]
+    var checkStone7 = [col<=1 && row<=2, [downOneRow, "glass"],
+    [rightOneCol, "glass"],[rightTwoCols, "stone"]//Pattern4
+    ];
+    var checkStone8 = [col>=1 && row<=1, [downOneRow, "glass"],
+    [downTwoRows, "glass"],[downTwoLeftOne, "stone"]//Pattern5
+    ];
+    var checkStone9 = [col>=1 && row>=2, [upOneRow, "glass"],
+    [upTwoRows, "stone"],[leftOneCol, "glass"]//Pattern5
+    ];
+    var checkStone10 = [col<=2 && row<=1, [downOneRow, "glass"],
+    [downTwoRows, "stone"],[downTwoRightOne, "stone"]//Pattern6
+    ];
+    var checkStone11 = [col<=2 && row>=2, [upOneRow, "glass"],
+    [upTwoRows, "stone"],[rightOneCol, "glass"]//Pattern6
+    ];
+    var checkStone12 = [col>=1 && row<=1, [downOneRow, "glass"],
+    [downTwoRows, "stone"],[leftOneCol, "glass"]//Pattern7
+    ];
+    var checkStone13 = [col>=1 && row>=2, [upOneRow, "glass"],
+    [upTwoRows, "stone"],[upTwoLeftOne, "glass"]//Pattern7
+    ];
+    var checkStone14 = [col<=2 && row<=1, [downOneRow, "glass"],
+    [downTwoRows, "stone"],[rightOneCol, "glass"]//Pattern8
+    ];
+    var checkStone15 = [col<=2 && row>=2, [upOneRow, "glass"],
+    [upTwoRows, "stone"],[upTwoRightOne, "glass"]//Pattern8
+    ];
+    var checkGlass0 = [col>=2 && row<=2, [downOneRow, "stone"],
+    [downLeftDiag, "glass"],[downOneLeftTwo, "stone"]//Pattern1
+    ];
+    var checkGlass1 = [col>=1 && col<=2 && row>=1, [leftOneCol, "stone"],
+    [rightOneCol, "stone"],[upRightDiag, "glass"]//Pattern1
+    ];
+    var checkGlass2 = [, [downOneRow, "stone"],
+    [downRightDiag, "glass"],[downOneRightTwo, "stone"]//Pattern2
+    ];
+    var checkGlass3 = [, [leftOneCol, "stone"],
+    [rightOneCol, "stone"],[upLeftDiag, "glass"]//Pattern2
+    ];
+    var checkGlass4 = [, [upOneRow, "stone"],
+    [upLeftDiag, "glass"],[upOneLeftTwo, "stone"]//Pattern3
+    ];
+    var checkGlass5 = [, [leftOneCol, "stone"],
+    [rightOneCol, "stone"],[downRightDiag, "glass"]//Pattern3
+    ];
+    var checkGlass6 = [, [upOneRow, "stone"],
+    [upRightDiag, "glass"],[upOneRightTwo, "stone"]//Pattern4
+    ];
+    var checkGlass7 = [, [leftOneCol, "stone"],
+    [rightOneCol, "stone"],[downLeftDiag, "glass"]//Pattern4
+    ];
+    var checkGlass8 = [, [rightOneCol, "stone"],
+    [upRightDiag, "glass"],[upTwoRightOne, "stone"]//Pattern5
+    ];
+    var checkGlass9 = [, [upOneRow, "stone"],
+    [downOneRow, "stone"],[downLeftDiag, "glass"]//Pattern5
+    ];
+    var checkGlass10 = [, [leftOneCol, "stone"],
+    [upLeftDiag, "glass"],[upTwoLeftOne, "stone"]//Pattern6
+    ];
+    var checkGlass11 = [, [upOneRow, "stone"],
+    [downOneRow, "stone"],[downRightDiag, "glass"]//Pattern6
+    ];
+    var checkGlass12 = [, [rightOneCol, "stone"],
+    [downRightDiag, "glass"],[downTwoRightOne, "stone"]//Pattern7
+    ];
+    var checkGlass13 = [, [upOneRow, "stone"],
+    [downOneRow, "stone"],[upLeftDiag, "glass"]//Pattern7
+    ];
+    var checkGlass14 = [, [leftOneCol, "stone"],
+    [downLeftDiag, "glass"],[downTwoLeftOne, "stone"]//Pattern8
+    ];
+    var checkGlass15 = [, [upOneRow, "stone"],
+    [downOneRow, "stone"],[upRightDiag, "glass"]//Pattern8
     ];
 
     var checkArray = [];
     if (firstResource === "stone") {
-        checkArray = [checkStone0,checkStone1,checkStone2,checkStone3];
+        checkArray = [checkStone0,checkStone1,checkStone2,checkStone3,checkStone4,checkStone5,checkStone6,checkStone7,checkStone8,checkStone9,checkStone10,checkStone11,checkStone12,checkStone13,checkStone14,checkStone15];
     } else if (firstResource === "glass") {
-        checkArray = [checkGlass0,checkGlass1,checkGlass2,checkGlass3];
+        checkArray = [checkGlass0,checkGlass1,checkGlass2,checkGlass3,checkGlass4,checkGlass5,checkGlass6,checkGlass7,checkGlass8,checkGlass9,checkGlass10,checkGlass11,checkGlass12,checkGlass13,checkGlass14,checkGlass15];
     }
 
     if (checkArray.length > 0) {
