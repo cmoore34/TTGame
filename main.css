@@ -7,6 +7,9 @@
     --tavern: green;
     --cottage: blue;
     --chapel:gold;
+    --theater:yellow;
+    --farm:red;
+    --factory:#484848;
 }
 
 html {
@@ -47,6 +50,18 @@ html {
 }
 .chapelFound {
     border: 3px solid var(--chapel) !important;
+    filter: brightness(120%);
+}
+.theaterFound {
+    border: 3px solid var(--theater) !important;
+    filter: brightness(120%);
+}
+.farmFound {
+    border: 3px solid var(--farm) !important;
+    filter: brightness(120%);
+}
+.factoryFound {
+    border: 3px solid var(--factory) !important;
     filter: brightness(120%);
 }
 

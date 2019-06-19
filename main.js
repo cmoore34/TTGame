@@ -47,7 +47,6 @@ function refillHand(dealStart) {
     }
 }
 function navPatterns(row,col) {
-    debugger;
     this.currentLocation = $('#r' + row + 'c' + col);
     this.downOneRow = $('#r' + (row + 1) + 'c' + col);
     this.upOneRow = $('#r' + (row - 1) + 'c' + col);
@@ -70,7 +69,6 @@ function navPatterns(row,col) {
     this.upTwoLeftOne = $('#r' + (row - 2) + 'c' + (col - 1));
     this.upTwoRightOne = $('#r' + (row - 2) + 'c' + (col + 1));
 }
-
 function checkBuilding(row, col, firstResource) {
     let nav = new navPatterns(row,col);
 
@@ -78,7 +76,8 @@ function checkBuilding(row, col, firstResource) {
     checkWell(row, col, firstResource, nav);
     checkCottage(row, col, firstResource, nav);
     checkChapel(row, col, firstResource, nav);
-    //checkTheatre(row, col, firstResource, nav);
+    checkTheatre(row, col, firstResource, nav);
+    //checkFarm(row, col, firstResource, nav)
     //checkFactory(row, col, firstResource, nav);
 }
 
@@ -401,26 +400,38 @@ function checkTheatre(row, col, firstResource, nav){
     var checkWood7 = [col<=2 && row>=2, [nav.upOneRow, "glass"],
     [nav.upRightDiag, "stone"],[nav.upTwoRows, "wood"]//Pattern4
     ];
-    var checkGlass0 = [, [nav.leftOneCol, "wood"],
+    var checkGlass0 = [col>=1 && col<=2 && row >= 1, [nav.leftOneCol, "wood"],
     [nav.rightOneCol, "wood"],[nav.upOneRow, "stone"] //Pattern1
     ];
-    var checkGlass1 = [, [nav.leftOneCol, "wood"],
-    [nav.rightOneCol, "wood"],[nav.upOneRow, "stone"]//Pattern2
+    var checkGlass1 = [col>=1 && col<=2 && row <= 2, [nav.leftOneCol, "wood"],
+    [nav.rightOneCol, "wood"],[nav.downOneRow, "stone"]//Pattern2
     ];
-    var checkGlass2 = [, [nav.upOneRow, "wood"],
+    var checkGlass2 = [col>=1 && row>=1 && row <= 2, [nav.upOneRow, "wood"],
     [nav.downOneRow, "wood"],[nav.leftOneCol, "stone"]//Pattern3
     ];
-    var checkGlass3 = [, [nav.upOneRow, "wood"],
+    var checkGlass3 = [col<=2 && row>=1 && row <= 2, [nav.upOneRow, "wood"],
     [nav.downOneRow, "wood"],[nav.rightOneCol, "stone"]//Pattern4
+    ];
+    var checkStone0 = [col>=1 && col<=2 && row <= 2, [nav.downOneRow, "glass"],
+    [nav.downLeftDiag, "wood"],[nav.downRightDiag, "wood"] //Pattern1
+    ];
+    var checkStone1 = [col>=1 && col<=2 && row >= 1, [nav.upOneRow, "glass"],
+    [nav.upLeftDiag, "wood"],[nav.upRightDiag, "wood"]//Pattern2
+    ];
+    var checkStone2 = [col<=2 && row>=1 && row <= 2, [nav.rightOneCol, "glass"],
+    [nav.upRightDiag, "wood"],[nav.downRightDiag, "wood"]//Pattern3
+    ];
+    var checkStone3 = [col>=1 && row>=1 && row <= 2, [nav.leftOneCol, "glass"],
+    [nav.upLeftDiag, "wood"],[nav.downLeftDiag, "wood"]//Pattern4
     ];
 
     var checkArray = [];
     if (firstResource === "wood") {
-        checkArray = [];
+        checkArray = [checkWood0,checkWood1,checkWood2,checkWood3,checkWood4,checkWood5,checkWood6,checkWood7];
     } else if (firstResource === "glass") {
-        checkArray = [];
+        checkArray = [checkGlass0,checkGlass1,checkGlass2,checkGlass3];
     } else if (firstResource === "stone") {
-        checkArray = [];
+        checkArray = [checkStone0,checkStone1,checkStone2,checkStone3];
     }
 
     if (checkArray.length > 0) {
@@ -437,6 +448,73 @@ function checkTheatre(row, col, firstResource, nav){
                             checkCmd[2][0].addClass("theaterFound");
                             checkCmd[3][0].addClass("theaterFound");
                             patternMatch = true;
+                        }
+                    }
+                }
+            }
+        })
+    }
+}
+function checkFarm(row, col, firstResource, nav){
+    var patternMatch = false;
+
+    var checkArray = [];
+    if (firstResource === "wheat") {
+        checkArray = [];
+    } else if (firstResource === "wood") {
+        checkArray = [];
+    }
+
+    if (checkArray.length > 0) {
+        checkArray.forEach(function(checkCmd) {
+            //if we do not have a patternMatch, and we are in the row/col bounds,
+            //we can check down the grid without exceeding the bounds of the grid
+            if (checkCmd[0] && !patternMatch) {
+                //if we find the next resource, we can continue checking that direction, otherwise we continue through the algorithm
+                if (checkCmd[1][0].data("resource") === checkCmd[1][1]) {
+                    if (checkCmd[2][0].data("resource") === checkCmd[2][1]) {
+                        if (checkCmd[3][0].data("resource") === checkCmd[3][1]) {
+                            nav.currentLocation.addClass("farmFound");
+                            checkCmd[1][0].addClass("farmFound");
+                            checkCmd[2][0].addClass("farmFound");
+                            checkCmd[3][0].addClass("farmFound");
+                            patternMatch = true;
+                        }
+                    }
+                }
+            }
+        })
+    }
+}
+function checkFactory(row, col, firstResource, nav){
+    var patternMatch = false;
+
+    var checkArray = [];
+    if (firstResource === "wood") {
+        checkArray = [];
+    } else if (firstResource === "brick") {
+        checkArray = [];
+    } else if (firstResource === "stone") {
+        checkArray = [];
+    }
+
+    if (checkArray.length > 0) {
+        checkArray.forEach(function(checkCmd) {
+            //if we do not have a patternMatch, and we are in the row/col bounds,
+            //we can check down the grid without exceeding the bounds of the grid
+            if (checkCmd[0] && !patternMatch) {
+                //if we find the next resource, we can continue checking that direction, otherwise we continue through the algorithm
+                if (checkCmd[1][0].data("resource") === checkCmd[1][1]) {
+                    if (checkCmd[2][0].data("resource") === checkCmd[2][1]) {
+                        if (checkCmd[3][0].data("resource") === checkCmd[3][1]) {
+                            if (checkCmd[4][0].data("resource") === checkCmd[4][1]) {
+                                nav.currentLocation.addClass("factoryFound");
+                                checkCmd[1][0].addClass("factoryFound");
+                                checkCmd[2][0].addClass("factoryFound");
+                                checkCmd[3][0].addClass("factoryFound");
+                                checkCmd[4][0].addClass("factoryFound");
+                                patternMatch = true;
+                            }
                         }
                     }
                 }
