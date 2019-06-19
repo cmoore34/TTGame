@@ -77,7 +77,7 @@ function checkBuilding(row, col, firstResource) {
     checkCottage(row, col, firstResource, nav);
     checkChapel(row, col, firstResource, nav);
     checkTheatre(row, col, firstResource, nav);
-    //checkFarm(row, col, firstResource, nav)
+    checkFarm(row, col, firstResource, nav);
     //checkFactory(row, col, firstResource, nav);
 }
 
@@ -458,11 +458,60 @@ function checkTheatre(row, col, firstResource, nav){
 function checkFarm(row, col, firstResource, nav){
     var patternMatch = false;
 
+    var checkWheat0 = [col <= 2 && row <=2, [nav.rightOneCol, "wheat"],
+    [nav.downOneRow, "wood"],[nav.downRightDiag, "wood"] //Pattern1
+    ];
+    var checkWheat1 = [col >= 1 && row <=2, [nav.leftOneCol, "wheat"],
+    [nav.downOneRow, "wood"],[nav.downLeftDiag, "wood"] //Pattern1
+    ];
+    var checkWheat2 = [col >= 1 && row <=2, [nav.downOneRow, "wheat"],
+    [nav.leftOneCol, "wood"],[nav.downLeftDiag, "wood"] //Pattern2
+    ];
+    var checkWheat3 = [col >= 1 && row >=1, [nav.upOneRow, "wheat"],
+    [nav.leftOneCol, "wood"],[nav.upLeftDiag, "wood"] //Pattern2
+    ];
+    var checkWheat4 = [col >= 1 && row >=1, [nav.leftOneCol, "wheat"],
+    [nav.upOneRow, "wood"],[nav.upLeftDiag, "wood"] //Pattern3
+    ];
+    var checkWheat5 = [col <= 2 && row >=1, [nav.rightOneCol, "wheat"],
+    [nav.upOneRow, "wood"],[nav.upRightDiag, "wood"] //Pattern3
+    ];
+    var checkWheat6 = [col <= 2 && row <=2, [nav.downOneRow, "wheat"],
+    [nav.rightOneCol, "wood"],[nav.downRightDiag, "wood"] //Pattern4
+    ];
+    var checkWheat7 = [col >= 1 && row >=1, [nav.upOneRow, "wheat"],
+    [nav.rightOneCol, "wood"],[nav.upRightDiag, "wood"] //Pattern4
+    ];
+    var checkWood0 = [col <= 2 && row <=2, [nav.rightOneCol, "wood"],
+    [nav.downOneRow, "wheat"],[nav.downRightDiag, "wheat"] //Pattern1
+    ];
+    var checkWood1 = [col >= 1 && row <=2, [nav.leftOneCol, "wood"],
+    [nav.downOneRow, "wheat"],[nav.downLeftDiag, "wheat"] //Pattern1
+    ];
+    var checkWood2 = [col >= 1 && row <=2, [nav.downOneRow, "wood"],
+    [nav.leftOneCol, "wheat"],[nav.downLeftDiag, "wheat"] //Pattern2
+    ];
+    var checkWood3 = [col >= 1 && row >=1, [nav.upOneRow, "wood"],
+    [nav.leftOneCol, "wheat"],[nav.upLeftDiag, "wheat"] //Pattern2
+    ];
+    var checkWood4 = [col >= 1 && row >=1, [nav.leftOneCol, "wood"],
+    [nav.upOneRow, "wheat"],[nav.upLeftDiag, "wheat"] //Pattern3
+    ];
+    var checkWood5 = [col <= 2 && row >=1, [nav.rightOneCol, "wood"],
+    [nav.upOneRow, "wheat"],[nav.upRightDiag, "wheat"] //Pattern3
+    ];
+    var checkWood6 = [col <= 2 && row <=2, [nav.downOneRow, "wood"],
+    [nav.rightOneCol, "wheat"],[nav.downRightDiag, "wheat"] //Pattern4
+    ];
+    var checkWood7 = [col >= 1 && row >=1, [nav.upOneRow, "wood"],
+    [nav.rightOneCol, "wheat"],[nav.upRightDiag, "wheat"] //Pattern4
+    ];
+
     var checkArray = [];
     if (firstResource === "wheat") {
-        checkArray = [];
+        checkArray = [checkWheat0,checkWheat1,checkWheat2,checkWheat3,checkWheat4,checkWheat5,checkWheat6,checkWheat7];
     } else if (firstResource === "wood") {
-        checkArray = [];
+        checkArray = [checkWood0,checkWood1,checkWood2,checkWood3,checkWood4,checkWood5,checkWood6,checkWood7];
     }
 
     if (checkArray.length > 0) {
