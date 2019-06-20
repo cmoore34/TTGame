@@ -49,25 +49,37 @@ function refillHand(dealStart) {
 function navPatterns(row,col) {
     this.currentLocation = $('#r' + row + 'c' + col);
     this.downOneRow = $('#r' + (row + 1) + 'c' + col);
-    this.upOneRow = $('#r' + (row - 1) + 'c' + col);
-    this.leftOneCol = $('#r' + row + 'c' + (col - 1));
-    this.rightOneCol = $('#r' + row + 'c' + (col + 1));
     this.downTwoRows = $('#r' + (row + 2) + 'c' + col);
+    this.downThreeRows = $('#r' + (row + 3) + 'c' + col);
+    this.upOneRow = $('#r' + (row - 1) + 'c' + col);
     this.upTwoRows = $('#r' + (row - 2) + 'c' + col);
-    this.rightTwoCols = $('#r' + row + 'c' + (col + 2));
+    this.upThreeRows = $('#r' + (row - 3) + 'c' + col);
+    this.leftOneCol = $('#r' + row + 'c' + (col - 1));
     this.leftTwoCols = $('#r' + row + 'c' + (col - 2));
+    this.leftThreeCols = $('#r' + row + 'c' + (col - 3));
+    this.rightOneCol = $('#r' + row + 'c' + (col + 1));
+    this.rightTwoCols = $('#r' + row + 'c' + (col + 2));
+    this.rightThreeCols = $('#r' + row + 'c' + (col + 2));
     this.upRightDiag = $('#r' + (row - 1) + 'c' + (col + 1));
     this.upLeftDiag = $('#r' + (row - 1) + 'c' + (col - 1));
     this.downRightDiag = $('#r' + (row + 1) + 'c' + (col + 1));
     this.downLeftDiag = $('#r' + (row + 1) + 'c' + (col - 1));
     this.rightTwoUpOne = $('#r' + (row - 1) + 'c' + (col + 2));
+    this.rightThreeUpOne = $('#r' + (row - 1) + 'c' + (col + 3));
     this.leftTwoUpOne = $('#r' + (row - 1) + 'c' + (col - 2));
+    this.leftThreeUpOne = $('#r' + (row - 1) + 'c' + (col - 3));
     this.rightTwoDownOne = $('#r' + (row + 1) + 'c' + (col + 2));
+    this.rightThreeDownOne = $('#r' + (row + 1) + 'c' + (col + 3));
     this.leftTwoDownOne = $('#r' + (row + 1) + 'c' + (col - 2));
+    this.leftThreeDownOne = $('#r' + (row + 1) + 'c' + (col - 3));
     this.downTwoLeftOne = $('#r' + (row + 2) + 'c' + (col - 1));
+    this.downThreeLeftOne = $('#r' + (row + 3) + 'c' + (col - 1));
     this.downTwoRightOne = $('#r' + (row + 2) + 'c' + (col + 1));
+    this.downThreeRightOne = $('#r' + (row + 3) + 'c' + (col + 1));
     this.upTwoLeftOne = $('#r' + (row - 2) + 'c' + (col - 1));
+    this.upThreeLeftOne = $('#r' + (row - 3) + 'c' + (col - 1));
     this.upTwoRightOne = $('#r' + (row - 2) + 'c' + (col + 1));
+    this.upThreeRightOne = $('#r' + (row - 3) + 'c' + (col + 1));
 }
 function checkBuilding(row, col, firstResource) {
     let nav = new navPatterns(row,col);
@@ -78,7 +90,7 @@ function checkBuilding(row, col, firstResource) {
     checkChapel(row, col, firstResource, nav);
     checkTheatre(row, col, firstResource, nav);
     checkFarm(row, col, firstResource, nav);
-    //checkFactory(row, col, firstResource, nav);
+    checkFactory(row, col, firstResource, nav);
 }
 
 function checkWell(row, col, firstResource, nav) {
@@ -538,13 +550,134 @@ function checkFarm(row, col, firstResource, nav){
 function checkFactory(row, col, firstResource, nav){
     var patternMatch = false;
 
+    var checkWood0 = [col == 0 && row <=2, [nav.downOneRow, "brick"],
+    [nav.downRightDiag, "stone"],[nav.rightTwoDownOne, "stone"],[nav.rightThreeDownOne, "brick"] //Pattern1
+    ];
+    var checkWood1 = [col == 0 && row >=1, [nav.upOneRow, "brick"],
+    [nav.upRightDiag, "stone"],[nav.rightTwoUpOne, "stone"],[nav.rightThreeUpOne, "brick"] //Pattern2
+    ];
+    var checkWood2 = [col == 3 && row <=2, [nav.downOneRow, "brick"],
+    [nav.downLeftDiag, "stone"],[nav.leftTwoDownOne, "stone"],[nav.leftThreeDownOne, "brick"] //Pattern3
+    ];
+    var checkWood3 = [col == 3 && row >=1, [nav.upOneRow, "brick"],
+    [nav.upLeftDiag, "stone"],[nav.leftTwoUpOne, "stone"],[nav.leftThreeUpOne, "brick"] //Pattern4
+    ];
+    var checkWood4 = [col <= 2 && row == 0, [nav.rightOneCol, "brick"],
+    [nav.downRightDiag, "stone"],[nav.downTwoRightOne, "stone"],[nav.downThreeRightOne, "brick"] //Pattern5
+    ];
+    var checkWood5 = [col >= 1 && row == 0, [nav.leftOneCol, "brick"],
+    [nav.downLeftDiag, "stone"],[nav.downTwoLeftOne, "stone"],[nav.downThreeLeftOne, "brick"] //Pattern6
+    ];
+    var checkWood6 = [col <= 2 && row == 3, [nav.rightOneCol, "brick"],
+    [nav.upRightDiag, "stone"],[nav.upTwoRightOne, "stone"],[nav.upThreeRightOne, "brick"] //Pattern7
+    ];
+    var checkWood7 = [col >= 1 && row == 3, [nav.leftOneCol, "brick"],
+    [nav.upLeftDiag, "stone"],[nav.upTwoLeftOne, "stone"],[nav.upThreeLeftOne, "brick"] //Pattern8
+    ];
+    var checkStone0 = [col == 1 && row >=1, [nav.leftOneCol, "brick"],
+    [nav.upLeftDiag, "wood"],[nav.rightOneCol, "stone"],[nav.rightTwoCols, "brick"] //Pattern1
+    ];
+    var checkStone1 = [col == 2 && row >=1, [nav.rightOneCol, "brick"],
+    [nav.leftOneCol, "stone"],[nav.leftTwoCols, "brick"],[nav.leftTwoUpOne, "wood"] //Pattern1
+    ];
+    var checkStone2 = [col == 1 && row <=2, [nav.leftOneCol, "brick"],
+    [nav.downLeftDiag, "wood"],[nav.rightOneCol, "stone"],[nav.rightTwoCols, "brick"] //Pattern2
+    ];
+    var checkStone3 = [col == 2 && row <=2, [nav.rightOneCol, "brick"],
+    [nav.leftOneCol, "stone"],[nav.leftTwoCols, "brick"],[nav.leftTwoDownOne, "wood"] //Pattern2
+    ];
+    var checkStone4 = [col == 1 && row >= 1, [nav.leftOneCol, "brick"],
+    [nav.rightOneCol, "stone"],[nav.rightTwoCols, "brick"],[nav.rightTwoUpOne, "wood"] //Pattern3
+    ];
+    var checkStone5 = [col == 2 && row >= 1, [nav.rightOneCol, "brick"],
+    [nav.upRightDiag, "wood"],[nav.leftOneCol, "stone"],[nav.leftTwoCols, "brick"] //Pattern3
+    ];
+    var checkStone6 = [col == 1 && row <= 2, [nav.leftOneCol, "brick"],
+    [nav.rightOneCol, "stone"],[nav.rightTwoCols, "brick"],[nav.rightTwoDownOne, "wood"] //Pattern4
+    ];
+    var checkStone7 = [col == 2 && row <= 2, [nav.rightOneCol, "brick"],
+    [nav.downRightDiag, "wood"],[nav.leftOneCol, "stone"],[nav.leftTwoCols, "brick"] //Pattern4
+    ];
+    var checkStone8 = [col >= 1 && row ==1, [nav.upOneRow, "brick"],
+    [nav.upLeftDiag, "wood"],[nav.downOneRow, "stone"],[nav.downTwoRows, "brick"] //Pattern5
+    ];
+    var checkStone9 = [col >= 1 && row ==2, [nav.upOneRow, "stone"],
+    [nav.upTwoRows, "brick"],[nav.upTwoLeftOne, "wood"],[nav.downOneRow, "brick"] //Pattern5
+    ];
+    var checkStone10 = [col <= 2 && row ==2, [nav.downOneRow, "brick"],
+    [nav.downLeftDiag, "wood"],[nav.leftTwoDownOne, "stone"],[nav.leftThreeDownOne, "brick"] //Pattern6
+    ];
+    var checkStone11 = [col <= 2 && row == 1, [nav.upOneRow, "stone"],
+    [nav.upTwoRows, "brick"],[nav.upTwoRightOne, "wood"],[nav.downOneRow, "brick"] //Pattern6
+    ];
+    var checkStone12 = [col >= 1 && row == 2, [nav.downOneRow, "brick"],
+    [nav.downLeftDiag, "wood"],[nav.upOneRow, "stone"],[nav.upTwoRows, "brick"] //Pattern7
+    ];
+    var checkStone13 = [col >= 1 && row == 1, [nav.upOneRow, "brick"],
+    [nav.downOneRow, "stone"],[nav.downTwoRows, "brick"],[nav.downTwoLeftOne, "wood"] //Pattern7
+    ];
+    var checkStone14 = [col <= 2 && row == 2, [nav.downOneRow, "brick"],
+    [nav.downRightDiag, "wood"],[nav.upOneRow, "stone"],[nav.upTwoRows, "brick"] //Pattern8
+    ];
+    var checkStone15 = [col <= 2 && row == 1, [nav.upOneRow, "brick"],
+    [nav.downOneRow, "stone"],[nav.downTwoRows, "brick"],[nav.downTwoRightOne, "wood"] //Pattern8
+    ];
+    var checkBrick0 = [col == 0 && row >=1, [nav.upOneRow, "wood"],
+    [nav.rightOneCol, "stone"],[nav.rightTwoCols, "stone"],[nav.rightThreeCols, "brick"] //Pattern1
+    ];
+    var checkBrick1 = [col == 3 && row >=1, [nav.leftOneCol, "stone"],
+    [nav.leftTwoCols, "stone"],[nav.leftThreeCols, "brick"],[nav.leftThreeUpOne, "wood"] //Pattern1
+    ];
+    var checkBrick2 = [col == 0 && row <=2, [nav.downOneRow, "wood"],
+    [nav.rightOneCol, "stone"],[nav.rightTwoCols, "stone"],[nav.rightThreeCols, "brick"] //Pattern2
+    ];
+    var checkBrick3 = [col == 3 && row <=2, [nav.leftOneCol, "stone"],
+    [nav.leftTwoCols, "stone"],[nav.leftThreeCols, "brick"],[nav.leftThreeDownOne, "wood"] //Pattern2
+    ];
+    var checkBrick4 = [col == 3 && row >= 1, [nav.upOneRow, "wood"],
+    [nav.leftOneCol, "stone"],[nav.leftTwoCols, "stone"],[nav.leftThreeCols, "brick"] //Pattern3
+    ];
+    var checkBrick5 = [col == 0 && row >= 1, [nav.rightOneCol, "stone"],
+    [nav.rightTwoCols, "stone"],[nav.rightThreeCols, "brick"],[nav.rightThreeUpOne, "wood"] //Pattern3
+    ];
+    var checkBrick6 = [col == 3 && row <= 2, [nav.downOneRow, "wood"],
+    [nav.leftOneCol, "stone"],[nav.leftTwoCols, "stone"],[nav.leftThreeCols, "brick"] //Pattern4
+    ];
+    var checkBrick7 = [col == 0 && row <= 2, [nav.rightOneCol, "stone"],
+    [nav.rightTwoCols, "stone"],[nav.rightThreeCols, "brick"],[nav.rightThreeDownOne, "wood"] //Pattern4
+    ];
+    var checkBrick8 = [col >= 1 && row ==0, [nav.leftOneCol, "wood"],
+    [nav.downOneRow, "stone"],[nav.downTwoRows, "stone"],[nav.downThreeRows, "brick"] //Pattern5
+    ];
+    var checkBrick9 = [col >= 1 && row ==3, [nav.upOneRow, "stone"],
+    [nav.upTwoRows, "stone"],[nav.upThreeRows, "brick"],[nav.upThreeLeftOne, "wood"] //Pattern5
+    ];
+    var checkBrick10 = [col <=2 && row ==0, [nav.rightOneCol, "wood"],
+    [nav.downOneRow, "stone"],[nav.downTwoRows, "stone"],[nav.downThreeRows, "brick"] //Pattern6
+    ];
+    var checkBrick11 = [col <= 2 && row ==3, [nav.upOneRow, "stone"],
+    [nav.upTwoRows, "stone"],[nav.upThreeRows, "brick"],[nav.upThreeRightOne, "wood"] //Pattern6
+    ];
+    var checkBrick12 = [col >= 1 && row == 3, [nav.leftOneCol, "wood"],
+    [nav.upOneRow, "stone"],[nav.upTwoRows, "stone"],[nav.upThreeRows, "brick"] //Pattern7
+    ];
+    var checkBrick13 = [col >= 1 && row == 0, [nav.downOneRow, "stone"],
+    [nav.downTwoRows, "stone"],[nav.downThreeRows, "brick"],[nav.downThreeLeftOne, "wood"] //Pattern7
+    ];
+    var checkBrick14 = [col <= 2 && row == 3, [nav.rightOneCol, "wood"],
+    [nav.upOneRow, "stone"],[nav.upTwoRows, "stone"],[nav.upThreeRows, "brick"] //Pattern8
+    ];
+    var checkBrick15 = [col <= 2 && row == 0, [nav.downOneRow, "stone"],
+    [nav.downTwoRows, "stone"],[nav.downThreeRows, "brick"],[nav.downThreeRightOne, "wood"] //Pattern8
+    ];
+
     var checkArray = [];
     if (firstResource === "wood") {
-        checkArray = [];
+        checkArray = [checkWood0,checkWood1,checkWood2,checkWood3,checkWood4,checkWood5,checkWood6,checkWood7];
     } else if (firstResource === "brick") {
-        checkArray = [];
+        checkArray = [checkBrick0,checkBrick1,checkBrick2,checkBrick3,checkBrick4,checkBrick5,checkBrick6,checkBrick7,checkBrick8,checkBrick9,checkBrick10,checkBrick11,checkBrick12,checkBrick13,checkBrick14,checkBrick15];
     } else if (firstResource === "stone") {
-        checkArray = [];
+        checkArray = [checkStone0,checkStone1,checkStone2,checkStone3,checkStone4,checkStone5,checkStone6,checkStone7,checkStone8,checkStone9,checkStone10,checkStone11,checkStone12,checkStone13,checkStone14,checkStone15];
     }
 
     if (checkArray.length > 0) {
