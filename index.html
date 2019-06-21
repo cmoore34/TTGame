@@ -70,8 +70,18 @@
                 $('.card').attr('class', 'card');
                 refillHand(false);
                 game.played = "";
-            } else if (firstResource !== "" && resourcePlayed === "") {
-                checkBuilding(row, col, firstResource); //check for a building and then just put a colored border around each cell that matches (array of id's)
+                $('.cell').each(function(el){
+                    var row = parseInt(this.id.substr(1, 1));
+                    var col = parseInt(this.id.substr(3, 3));
+                    var firstResource = $(this).data("resource");
+                    if (firstResource !== "")
+                    {
+                        checkBuilding(row, col, firstResource);
+                        if($(this).buildingCount()>1){
+                            $(this).addClass('multiBuilding');
+                        }
+                    }
+                });
             }
         });
     </script>

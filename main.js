@@ -59,7 +59,6 @@ function checkBuilding(row, col, firstResource) {
     checkFarm(firstResource, nav, pat);
     checkFactory(firstResource, nav, pat);
 }
-
 function checkWell(firstResource, nav, pat) {
     var patternMatch = false;
 
@@ -445,3 +444,6 @@ function buildingPatterns(row,col,nav) {
     this.factoryBrick2P7 = [col >= 1 && row == 0, [nav.downOneRow, "stone"],[nav.downTwoRows, "stone"],[nav.downThreeRows, "brick"],[nav.downThreeLeftOne, "wood"]]; //Pattern7
     this.factoryBrick2P8 = [col <= 2 && row == 0, [nav.downOneRow, "stone"],[nav.downTwoRows, "stone"],[nav.downThreeRows, "brick"],[nav.downThreeRightOne, "wood"]]; //Pattern8
 }
+$.fn.buildingCount = function() {
+    return $.grep(this.attr("class").replace('brick','').replace('wood','').replace('glass','').replace('wheat','').replace('stone','').replace('cell','').split(/\s+/), $.trim).length;
+};

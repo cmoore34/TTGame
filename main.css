@@ -10,6 +10,7 @@
     --theater:yellow;
     --farm:red;
     --factory:#484848;
+    --multi:purple;
 }
 
 html {
@@ -62,6 +63,10 @@ html {
 }
 .factoryFound {
     border: 3px solid var(--factory) !important;
+    filter: brightness(120%);
+}
+.multiBuilding {
+    border: 3px solid var(--multi) !important;
     filter: brightness(120%);
 }
 
