@@ -52,16 +52,30 @@ function checkBuilding(row, col, firstResource) {
     let pat = new buildingPatterns(row, col, nav)
 
     checkTavern(firstResource, nav, pat);
-    checkWell(firstResource, nav, pat);
+    checkWell(firstResource, nav, pat, false);
     checkCottage(firstResource, nav, pat);
     checkChapel(firstResource, nav, pat);
     checkTheatre(firstResource, nav, pat);
     checkFarm(firstResource, nav, pat);
     checkFactory(firstResource, nav, pat);
 }
-function checkWell(firstResource, nav, pat) {
+function placeBuilding(row, col, firstResource, building) {
+    let nav = new navPatterns(row,col);
+    let pat = new buildingPatterns(row, col, nav)
+    
+    if(building=="wellFound"){
+        checkWell(firstResource, nav, pat, true);
+    }
+    //checkTavern(firstResource, nav, pat);
+    //checkCottage(firstResource, nav, pat);
+    //checkChapel(firstResource, nav, pat);
+    //checkTheatre(firstResource, nav, pat);
+    //checkFarm(firstResource, nav, pat);
+    //checkFactory(firstResource, nav, pat);
+}
+function checkWell(firstResource, nav, pat, place) {
     var patternMatch = false;
-
+    
     var checkArray = [];
     if (firstResource === "wood") {
         checkArray = [pat.wellWoodP1,pat.wellWoodP2,pat.wellWoodP3,pat.wellWoodP4];
@@ -75,8 +89,20 @@ function checkWell(firstResource, nav, pat) {
             if (checkCmd[0] && !patternMatch) {
                 //if we find the next resource, we can continue checking that direction, otherwise we continue through the algorithm
                 if (checkCmd[1][0].data("resource") === checkCmd[1][1]) {
-                    nav.currentLocation.addClass("wellFound");
-                    checkCmd[1][0].addClass("wellFound");
+                    if (!place) {
+                        nav.currentLocation.addClass("wellFound");
+                        checkCmd[1][0].addClass("wellFound");
+                    }
+                    else if (place) {
+                        nav.currentLocation.removeClass("wellFound");
+                        nav.currentLocation.removeClass(firstResource);
+                        nav.currentLocation.addClass("well");
+                        nav.currentLocation.data("resource","");
+                        nav.currentLocation.data("building","well");
+                        checkCmd[1][0].removeClass("wellFound");
+                        checkCmd[1][0].removeClass(checkCmd[1][0].data("resource"));
+                        checkCmd[1][0].data("resource","");
+                    }
                     patternMatch = true;
                 }
             }
@@ -446,4 +472,7 @@ function buildingPatterns(row,col,nav) {
 }
 $.fn.buildingCount = function() {
     return $.grep(this.attr("class").replace('brick','').replace('wood','').replace('glass','').replace('wheat','').replace('stone','').replace('cell','').split(/\s+/), $.trim).length;
+};
+$.fn.buildingFind = function() {
+    return $.grep(this.attr("class").replace('brick','').replace('wood','').replace('glass','').replace('wheat','').replace('stone','').replace('cell','').split(/\s+/), $.trim);
 };

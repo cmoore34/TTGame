@@ -69,6 +69,9 @@ html {
     border: 3px solid var(--multi) !important;
     filter: brightness(120%);
 }
+.well:after{
+    background-image: radial-gradient(circle, var(--stone) 50%, transparent 50%)
+}
 
 .gameContainer {
     display: grid;

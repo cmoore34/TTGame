@@ -82,6 +82,9 @@
                         }
                     }
                 });
+            } else if($(this).is('[class$="Found"]')){
+                var building = $(this).buildingFind();
+                placeBuilding(row, col, firstResource, building);
             }
         });
     </script>
