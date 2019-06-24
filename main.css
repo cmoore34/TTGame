@@ -69,9 +69,6 @@ html {
     border: 3px solid var(--multi) !important;
     filter: brightness(120%);
 }
-.well:after{
-    background-image: radial-gradient(circle, var(--stone) 50%, transparent 50%)
-}
 
 .gameContainer {
     display: grid;
@@ -106,6 +103,7 @@ html {
 .town .cell {
     height: 50px;
     width: 50px;
+    text-align: center;
     justify-self: center;
     background-color: white;
     border: 2px solid black;

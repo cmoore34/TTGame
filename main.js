@@ -97,6 +97,7 @@ function checkWell(firstResource, nav, pat, place) {
                         nav.currentLocation.removeClass("wellFound");
                         nav.currentLocation.removeClass(firstResource);
                         nav.currentLocation.addClass("well");
+                        nav.currentLocation.append("<svg width='45' height='47' style='margin-top:2px;margin-left:1px;'><g><path xmlns='http://www.w3.org/2000/svg' stroke='#000' id='svg_1' d='m0.499998,22.500001l4.010643,-12.66964l10.499939,-7.830361l12.978839,0l10.500004,7.830361l4.010576,12.66964l-4.010576,12.66964l-10.500004,7.83036l-12.978839,0l-10.499939,-7.83036l-4.010643,-12.66964z' stroke-width='1.5' fill='#999999'/></g></svg>")
                         nav.currentLocation.data("resource","");
                         nav.currentLocation.data("building","well");
                         checkCmd[1][0].removeClass("wellFound");
