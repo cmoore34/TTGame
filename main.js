@@ -51,13 +51,13 @@ function checkBuilding(row, col, firstResource) {
     let nav = new navPatterns(row,col);
     let pat = new buildingPatterns(row, col, nav)
 
-    checkTavern(firstResource, nav, pat);
+    checkTavern(firstResource, nav, pat, false);
     checkWell(firstResource, nav, pat, false);
-    checkCottage(firstResource, nav, pat);
-    checkChapel(firstResource, nav, pat);
-    checkTheatre(firstResource, nav, pat);
-    checkFarm(firstResource, nav, pat);
-    checkFactory(firstResource, nav, pat);
+    checkCottage(firstResource, nav, pat, false);
+    checkChapel(firstResource, nav, pat, false);
+    checkTheater(firstResource, nav, pat, false);
+    checkFarm(firstResource, nav, pat, false);
+    checkFactory(firstResource, nav, pat, false);
 }
 function placeBuilding(row, col, firstResource, building) {
     let nav = new navPatterns(row,col);
@@ -66,12 +66,24 @@ function placeBuilding(row, col, firstResource, building) {
     if(building=="wellFound"){
         checkWell(firstResource, nav, pat, true);
     }
-    //checkTavern(firstResource, nav, pat);
-    //checkCottage(firstResource, nav, pat);
-    //checkChapel(firstResource, nav, pat);
-    //checkTheatre(firstResource, nav, pat);
-    //checkFarm(firstResource, nav, pat);
-    //checkFactory(firstResource, nav, pat);
+    else if(building=="factoryFound"){
+        checkFactory(firstResource, nav, pat, true);
+    }
+    else if(building=="farmFound"){
+        checkFarm(firstResource, nav, pat, true);
+    }
+    else if(building=="theaterFound"){
+        checkTheater(firstResource, nav, pat, true);
+    }
+    else if(building=="chapelFound"){
+        checkChapel(firstResource, nav, pat, true);
+    }
+    else if(building=="cottageFound"){
+        checkCottage(firstResource, nav, pat, true);
+    }
+    else if(building=="tavernFound"){
+        checkTavern(firstResource, nav, pat, true);
+    }
 }
 function checkWell(firstResource, nav, pat, place) {
     var patternMatch = false;
@@ -97,7 +109,7 @@ function checkWell(firstResource, nav, pat, place) {
                         nav.currentLocation.removeClass("wellFound");
                         nav.currentLocation.removeClass(firstResource);
                         nav.currentLocation.addClass("well");
-                        nav.currentLocation.append("<svg width='45' height='47' style='margin-top:2px;margin-left:1px;'><g><path xmlns='http://www.w3.org/2000/svg' stroke='#000' id='svg_1' d='m0.499998,22.500001l4.010643,-12.66964l10.499939,-7.830361l12.978839,0l10.500004,7.830361l4.010576,12.66964l-4.010576,12.66964l-10.500004,7.83036l-12.978839,0l-10.499939,-7.83036l-4.010643,-12.66964z' stroke-width='1.5' fill='#999999'/></g></svg>")
+                        nav.currentLocation.append("<img src='BuildingSVG/Well.svg' />")
                         nav.currentLocation.data("resource","");
                         nav.currentLocation.data("building","well");
                         checkCmd[1][0].removeClass("wellFound");
@@ -110,7 +122,7 @@ function checkWell(firstResource, nav, pat, place) {
         })
     }
 }
-function checkTavern(firstResource, nav, pat) {
+function checkTavern(firstResource, nav, pat, place) {
     var patternMatch = false;
 
     var checkArray = [];
@@ -127,9 +139,26 @@ function checkTavern(firstResource, nav, pat) {
                 //if we find the next resource, we can continue checking that direction, otherwise we continue through the algorithm
                 if (checkCmd[1][0].data("resource") === checkCmd[1][1]) {
                     if (checkCmd[2][0].data("resource") === checkCmd[2][1]) {
-                        nav.currentLocation.addClass("tavernFound");
-                        checkCmd[1][0].addClass("tavernFound");
-                        checkCmd[2][0].addClass("tavernFound");
+                        if (!place)
+                        {
+                            nav.currentLocation.addClass("tavernFound");
+                            checkCmd[1][0].addClass("tavernFound");
+                            checkCmd[2][0].addClass("tavernFound");
+                        }
+                        else if (place) {
+                            nav.currentLocation.removeClass("tavernFound");
+                            nav.currentLocation.removeClass(firstResource);
+                            nav.currentLocation.addClass("tavern");
+                            nav.currentLocation.append("<img src='BuildingSVG/Tavern.svg' />")
+                            nav.currentLocation.data("resource","");
+                            nav.currentLocation.data("building","tavern");
+                            checkCmd[1][0].removeClass("tavernFound");
+                            checkCmd[1][0].removeClass(checkCmd[1][0].data("resource"));
+                            checkCmd[1][0].data("resource","");
+                            checkCmd[2][0].removeClass("tavernFound");
+                            checkCmd[2][0].removeClass(checkCmd[2][0].data("resource"));
+                            checkCmd[2][0].data("resource","");
+                        }
                         patternMatch = true;
                     }
                 }
@@ -137,7 +166,7 @@ function checkTavern(firstResource, nav, pat) {
         })
     }
 }
-function checkCottage(firstResource, nav, pat) {
+function checkCottage(firstResource, nav, pat, place) {
     var patternMatch = false;
 
     var checkArray = [];
@@ -157,9 +186,26 @@ function checkCottage(firstResource, nav, pat) {
                 //if we find the next resource, we can continue checking that direction, otherwise we continue through the algorithm
                 if (checkCmd[1][0].data("resource") === checkCmd[1][1]) {
                     if (checkCmd[2][0].data("resource") === checkCmd[2][1]) {
-                        nav.currentLocation.addClass("cottageFound");
-                        checkCmd[1][0].addClass("cottageFound");
-                        checkCmd[2][0].addClass("cottageFound");
+                        if(!place)
+                        {
+                            nav.currentLocation.addClass("cottageFound");
+                            checkCmd[1][0].addClass("cottageFound");
+                            checkCmd[2][0].addClass("cottageFound");
+                        }
+                        else if (place) {
+                            nav.currentLocation.removeClass("cottageFound");
+                            nav.currentLocation.removeClass(firstResource);
+                            nav.currentLocation.addClass("cottage");
+                            nav.currentLocation.append("<img src='BuildingSVG/Cottage.svg' />")
+                            nav.currentLocation.data("resource","");
+                            nav.currentLocation.data("building","cottage");
+                            checkCmd[1][0].removeClass("cottageFound");
+                            checkCmd[1][0].removeClass(checkCmd[1][0].data("resource"));
+                            checkCmd[1][0].data("resource","");
+                            checkCmd[2][0].removeClass("cottageFound");
+                            checkCmd[2][0].removeClass(checkCmd[2][0].data("resource"));
+                            checkCmd[2][0].data("resource","");
+                        }
                         patternMatch = true;
                     }
                 }
@@ -167,7 +213,7 @@ function checkCottage(firstResource, nav, pat) {
         })
     }
 }
-function checkChapel(firstResource, nav, pat) {
+function checkChapel(firstResource, nav, pat, place) {
     var patternMatch = false;
 
     var checkArray = [];
@@ -186,10 +232,29 @@ function checkChapel(firstResource, nav, pat) {
                 if (checkCmd[1][0].data("resource") === checkCmd[1][1]) {
                     if (checkCmd[2][0].data("resource") === checkCmd[2][1]) {
                         if (checkCmd[3][0].data("resource") === checkCmd[3][1]) {
-                            nav.currentLocation.addClass("chapelFound");
-                            checkCmd[1][0].addClass("chapelFound");
-                            checkCmd[2][0].addClass("chapelFound");
-                            checkCmd[3][0].addClass("chapelFound");
+                            if(!place){
+                                nav.currentLocation.addClass("chapelFound");
+                                checkCmd[1][0].addClass("chapelFound");
+                                checkCmd[2][0].addClass("chapelFound");
+                                checkCmd[3][0].addClass("chapelFound");
+                            }
+                            else if (place) {
+                                nav.currentLocation.removeClass("chapelFound");
+                                nav.currentLocation.removeClass(firstResource);
+                                nav.currentLocation.addClass("chapel");
+                                nav.currentLocation.append("<img src='BuildingSVG/Chapel.svg' />")
+                                nav.currentLocation.data("resource","");
+                                nav.currentLocation.data("building","chapel");
+                                checkCmd[1][0].removeClass("chapelFound");
+                                checkCmd[1][0].removeClass(checkCmd[1][0].data("resource"));
+                                checkCmd[1][0].data("resource","");
+                                checkCmd[2][0].removeClass("chapelFound");
+                                checkCmd[2][0].removeClass(checkCmd[2][0].data("resource"));
+                                checkCmd[2][0].data("resource","");
+                                checkCmd[3][0].removeClass("chapelFound");
+                                checkCmd[3][0].removeClass(checkCmd[3][0].data("resource"));
+                                checkCmd[3][0].data("resource","");
+                            }
                             patternMatch = true;
                         }
                     }
@@ -198,7 +263,7 @@ function checkChapel(firstResource, nav, pat) {
         })
     }
 }
-function checkTheatre(firstResource, nav, pat){
+function checkTheater(firstResource, nav, pat, place){
     var patternMatch = false;
 
     var checkArray = [];
@@ -219,10 +284,29 @@ function checkTheatre(firstResource, nav, pat){
                 if (checkCmd[1][0].data("resource") === checkCmd[1][1]) {
                     if (checkCmd[2][0].data("resource") === checkCmd[2][1]) {
                         if (checkCmd[3][0].data("resource") === checkCmd[3][1]) {
-                            nav.currentLocation.addClass("theaterFound");
-                            checkCmd[1][0].addClass("theaterFound");
-                            checkCmd[2][0].addClass("theaterFound");
-                            checkCmd[3][0].addClass("theaterFound");
+                            if(!place){
+                                nav.currentLocation.addClass("theaterFound");
+                                checkCmd[1][0].addClass("theaterFound");
+                                checkCmd[2][0].addClass("theaterFound");
+                                checkCmd[3][0].addClass("theaterFound");
+                            }
+                            else if (place) {
+                                nav.currentLocation.removeClass("theaterFound");
+                                nav.currentLocation.removeClass(firstResource);
+                                nav.currentLocation.addClass("theater");
+                                nav.currentLocation.append("<img src='BuildingSVG/Theater.svg' />")
+                                nav.currentLocation.data("resource","");
+                                nav.currentLocation.data("building","theater");
+                                checkCmd[1][0].removeClass("theaterFound");
+                                checkCmd[1][0].removeClass(checkCmd[1][0].data("resource"));
+                                checkCmd[1][0].data("resource","");
+                                checkCmd[2][0].removeClass("theaterFound");
+                                checkCmd[2][0].removeClass(checkCmd[2][0].data("resource"));
+                                checkCmd[2][0].data("resource","");
+                                checkCmd[3][0].removeClass("theaterFound");
+                                checkCmd[3][0].removeClass(checkCmd[3][0].data("resource"));
+                                checkCmd[3][0].data("resource","");
+                            }
                             patternMatch = true;
                         }
                     }
@@ -231,7 +315,7 @@ function checkTheatre(firstResource, nav, pat){
         })
     }
 }
-function checkFarm(firstResource, nav, pat){
+function checkFarm(firstResource, nav, pat, place){
     var patternMatch = false;
 
     var checkArray = [];
@@ -250,10 +334,29 @@ function checkFarm(firstResource, nav, pat){
                 if (checkCmd[1][0].data("resource") === checkCmd[1][1]) {
                     if (checkCmd[2][0].data("resource") === checkCmd[2][1]) {
                         if (checkCmd[3][0].data("resource") === checkCmd[3][1]) {
-                            nav.currentLocation.addClass("farmFound");
-                            checkCmd[1][0].addClass("farmFound");
-                            checkCmd[2][0].addClass("farmFound");
-                            checkCmd[3][0].addClass("farmFound");
+                            if(!place){
+                                nav.currentLocation.addClass("farmFound");
+                                checkCmd[1][0].addClass("farmFound");
+                                checkCmd[2][0].addClass("farmFound");
+                                checkCmd[3][0].addClass("farmFound");
+                            }
+                            else if (place) {
+                                nav.currentLocation.removeClass("farmFound");
+                                nav.currentLocation.removeClass(firstResource);
+                                nav.currentLocation.addClass("farm");
+                                nav.currentLocation.append("<img src='BuildingSVG/Farm.svg' />")
+                                nav.currentLocation.data("resource","");
+                                nav.currentLocation.data("building","farm");
+                                checkCmd[1][0].removeClass("farmFound");
+                                checkCmd[1][0].removeClass(checkCmd[1][0].data("resource"));
+                                checkCmd[1][0].data("resource","");
+                                checkCmd[2][0].removeClass("farmFound");
+                                checkCmd[2][0].removeClass(checkCmd[2][0].data("resource"));
+                                checkCmd[2][0].data("resource","");
+                                checkCmd[3][0].removeClass("farmFound");
+                                checkCmd[3][0].removeClass(checkCmd[3][0].data("resource"));
+                                checkCmd[3][0].data("resource","");
+                            }
                             patternMatch = true;
                         }
                     }
@@ -262,7 +365,7 @@ function checkFarm(firstResource, nav, pat){
         })
     }
 }
-function checkFactory(firstResource, nav, pat){
+function checkFactory(firstResource, nav, pat, place){
     var patternMatch = false;
 
     var checkArray = [];
@@ -284,11 +387,34 @@ function checkFactory(firstResource, nav, pat){
                     if (checkCmd[2][0].data("resource") === checkCmd[2][1]) {
                         if (checkCmd[3][0].data("resource") === checkCmd[3][1]) {
                             if (checkCmd[4][0].data("resource") === checkCmd[4][1]) {
-                                nav.currentLocation.addClass("factoryFound");
-                                checkCmd[1][0].addClass("factoryFound");
-                                checkCmd[2][0].addClass("factoryFound");
-                                checkCmd[3][0].addClass("factoryFound");
-                                checkCmd[4][0].addClass("factoryFound");
+                                debugger;
+                                if(!place){
+                                    nav.currentLocation.addClass("factoryFound");
+                                    checkCmd[1][0].addClass("factoryFound");
+                                    checkCmd[2][0].addClass("factoryFound");
+                                    checkCmd[3][0].addClass("factoryFound");
+                                    checkCmd[4][0].addClass("factoryFound");
+                                }
+                                else if (place) {
+                                    nav.currentLocation.removeClass("factoryFound");
+                                    nav.currentLocation.removeClass(firstResource);
+                                    nav.currentLocation.addClass("factory");
+                                    nav.currentLocation.append("<img src='BuildingSVG/Factory.svg' />")
+                                    nav.currentLocation.data("resource","");
+                                    nav.currentLocation.data("building","factory");
+                                    checkCmd[1][0].removeClass("factoryFound");
+                                    checkCmd[1][0].removeClass(checkCmd[1][0].data("resource"));
+                                    checkCmd[1][0].data("resource","");
+                                    checkCmd[2][0].removeClass("factoryFound");
+                                    checkCmd[2][0].removeClass(checkCmd[2][0].data("resource"));
+                                    checkCmd[2][0].data("resource","");
+                                    checkCmd[3][0].removeClass("factoryFound");
+                                    checkCmd[3][0].removeClass(checkCmd[3][0].data("resource"));
+                                    checkCmd[3][0].data("resource","");
+                                    checkCmd[4][0].removeClass("factoryFound");
+                                    checkCmd[4][0].removeClass(checkCmd[4][0].data("resource"));
+                                    checkCmd[4][0].data("resource","");
+                                }
                                 patternMatch = true;
                             }
                         }
