@@ -64,7 +64,7 @@
             var firstResource = $(this).data("resource");
             var resourcePlayed = game.played.toLowerCase();
 
-            if (firstResource === "" && resourcePlayed !== "") {
+            if (firstResource === "" && resourcePlayed !== "" && $(this).data('resource') == '' && $(this).data('building') == '') {
                 $(this).addClass(resourcePlayed);
                 $(this).data("resource", resourcePlayed);
                 $('.card').attr('class', 'card');
