@@ -1,17 +1,17 @@
 :root {
     --stone: slategrey;
     --wheat: wheat;
-    --glass: deepskyblue ;
+    --glass: deepskyblue;
     --brick: firebrick;
     --wood: saddlebrown;
     --tavern: #00a86b;
-    --cottage: #14e6f1 ;
-    --chapel:#FFAE19;
-    --theater:#ffec00;
-    --farm:#ff1a1a;
-    --factory:#3b3b3b;
-    --multi:purple;
-    --well:slategrey;
+    --cottage: #14e6f1;
+    --chapel: #FFAE19;
+    --theater: #ffec00;
+    --farm: #ff1a1a;
+    --factory: #3b3b3b;
+    --multi: purple;
+    --well: slategrey;
 }
 
 html {
@@ -42,30 +42,37 @@ html {
     border: 3px solid var(--tavern) !important;
     filter: brightness(120%);
 }
+
 .wellFound {
     border: 3px solid var(--stone) !important;
     filter: brightness(120%);
 }
+
 .cottageFound {
     border: 3px solid var(--cottage) !important;
     filter: brightness(120%);
 }
+
 .chapelFound {
     border: 3px solid var(--chapel) !important;
     filter: brightness(120%);
 }
+
 .theaterFound {
     border: 3px solid var(--theater) !important;
     filter: brightness(120%);
 }
+
 .farmFound {
     border: 3px solid var(--farm) !important;
     filter: brightness(120%);
 }
+
 .factoryFound {
     border: 3px solid var(--factory) !important;
     filter: brightness(120%);
 }
+
 .multiBuilding {
     border: 3px solid var(--multi) !important;
     filter: brightness(120%);
@@ -74,7 +81,7 @@ html {
 .gameContainer {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    grid-template-areas: ". . cardhand . ." ". . cardhand . ." ". . town . ." ". . town . ." ". . town . ." ". . town . .";
+    grid-template-areas: ". . cardhand . ." ". . town . .";
 }
 
 .hand {
@@ -95,8 +102,9 @@ html {
 
 .town {
     display: grid;
+    width: 250px;
+    justify-self: center;
     grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(4, 1fr);
     grid-gap: 10px;
     grid-area: town;
 }
@@ -106,6 +114,7 @@ html {
     width: 50px;
     text-align: center;
     justify-self: center;
+    /* background-image: url(/Background.svg); */
     background-color: white;
     border: 2px solid black;
 }

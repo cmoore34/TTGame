@@ -70,19 +70,18 @@
                 $('.card').attr('class', 'card');
                 refillHand(false);
                 game.played = "";
-                $('.cell').each(function(el){
+                $('.cell').each(function(el) {
                     var row = parseInt(this.id.substr(1, 1));
                     var col = parseInt(this.id.substr(3, 3));
                     var firstResource = $(this).data("resource");
-                    if (firstResource !== "")
-                    {
+                    if (firstResource !== "") {
                         checkBuilding(row, col, firstResource);
-                        if($(this).buildingCount()>1){
+                        if ($(this).buildingCount() > 1) {
                             $(this).addClass('multiBuilding');
                         }
                     }
                 });
-            } else if($(this).is('[class$="Found"]')){
+            } else if ($(this).is('[class$="Found"]')) {
                 var building = $(this).buildingFind();
                 placeBuilding(row, col, firstResource, building);
             }
