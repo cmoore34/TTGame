@@ -81,7 +81,7 @@ html {
 .gameContainer {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    grid-template-areas: ". . cardhand . ." ". . town . .";
+    grid-template-areas: ". . cardhand . ." ". . town . ." "patternList patternList patternList patternList patternList";
 }
 
 .hand {
@@ -117,4 +117,33 @@ html {
     /* background-image: url(/Background.svg); */
     background-color: white;
     border: 2px solid black;
+}
+.patternList {
+    margin-top: 10px;
+    display: grid;
+    grid-area: patternList;
+    grid-template-columns: repeat(7, 1fr);
+}
+.patternCard {
+    display:grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-areas:
+        "buildingName . . . buildingSVG"
+        ". . patternIMG . ."
+        ". scoring scoring scoring .";
+    height: 180px;
+    width: 170px;
+    background-color:white;
+}
+.buildingName {
+    grid-area: buildingName
+}
+.buildingSVG {
+    grid-area: buildingSVG
+}
+.patternIMG {
+    grid-area: patternIMG
+}
+.scoring {
+    grid-area: scoring
 }
